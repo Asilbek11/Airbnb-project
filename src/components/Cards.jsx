@@ -6,12 +6,12 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import SwiperBtnNext from './SwiperBtnNext';
 
-function Cards({ data }) {
+function Cards({data}) {
   const [activeIndexes, setActiveIndexes] = useState([]);
   const handleClick = (index) => {
     if (activeIndexes.includes(index)) {
       setActiveIndexes(activeIndexes.filter((i) => i !== index));
-    } else {
+    }else{
       setActiveIndexes([...activeIndexes, index]);
     }
   };
