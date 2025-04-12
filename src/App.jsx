@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import './App.css';
-import Navbar from './components/Navbar';
-import Cards from './components/Cards';
+import {Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
+import Wishlist from './components/Wishlist';
+import Login from './components/Login';
 let categoryData = [
   {
     "id": "TAB_789",
@@ -4715,11 +4717,13 @@ let itemData = [
 
 
 function App() {
-  let [active, setActive] = useState('');
   return (
     <div className="container-main">
-      <Navbar data={categoryData} setActive={setActive} active={active} />
-      <Cards data={itemData}/>
+      <Routes>
+          <Route path="/" element={<Home cat_data={categoryData} data={itemData}/>}/>
+          <Route path="/wishlist" element={<Wishlist data={itemData} />}/> 
+          <Route path="/login" element={<Login />}/> 
+      </Routes>
     </div>
   );
 }

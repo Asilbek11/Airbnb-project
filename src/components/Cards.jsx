@@ -16,8 +16,7 @@ function Cards({data}) {
     }
   };
   return (
-    <section className='items-body'>
-      <div className="container card-container">
+      <>
         {data.length > 0 ? data.map((item, index) => (
           <div className="item-wrp">
             <div href={item.url} className="item" key={item.id}>
@@ -34,7 +33,7 @@ function Cards({data}) {
                   pagination={{ clickable: true, dynamicBullets: true, }}
                 >
                   {item.images.map((item, index) => (
-                    <SwiperSlide className='item-img'><img src={item} key={index} /></SwiperSlide>
+                    <SwiperSlide className='item-img'><a href={item.deeplink}><img src={item} key={index} /></a></SwiperSlide>
                   ))}
                   <div className="swiper-nav">
                     <SwiperBtnNext action={false} children={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: '4', overflow: 'visible' }}><path fill="none" d="M20 28 8.7 16.7a1 1 0 0 1 0-1.4L20 4"></path></svg>} />
@@ -54,8 +53,8 @@ function Cards({data}) {
             </div>
           </div>
         )) : <h1>Hozircha bo'sh</h1>}
-      </div>
-    </section >
+      </>
   )
+  
 }
-export default Cards
+export default Cards;

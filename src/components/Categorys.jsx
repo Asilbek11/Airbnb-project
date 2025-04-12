@@ -2,8 +2,6 @@ import React from 'react';
 
 export default function Categorys({data}) {
   return (
-    <section>
-      <div className="container">
         <div className='category-list'>
           <div className='list'>
             {data.length >0 ?
@@ -17,7 +15,5 @@ export default function Categorys({data}) {
             <h1>LOADING. . .</h1>}
           </div>
         </div>
-      </div>
-    </section>
   )
 }
