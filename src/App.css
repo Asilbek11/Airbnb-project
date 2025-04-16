@@ -283,7 +283,6 @@ section.items-body {
 .container.form-container form {
   position: relative;
   width: 40%;
-  height: 550px;
   margin-top: 100px;
   border-radius: 30px;
   box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
@@ -341,7 +340,7 @@ section.items-body {
   font-weight: 650;
 }
 .container.form-container form .form-body {
-  padding: 26px;
+  padding: 15px 26px 15px 26px;
 }
 .container.form-container form .form-body h1 {
   font-weight: 600;
@@ -368,7 +367,7 @@ section.items-body {
   padding: 0 26px;
 }
 .container.form-container form .form-footer .line-box {
-  padding: 15px 0;
+  padding: 10px 0;
   position: relative;
 }
 .container.form-container form .form-footer .line-box .line {
@@ -413,7 +412,7 @@ section.items-body {
 }
 .container.form-container form .form-footer .privacy {
   font-size: 14px;
-  padding: 0 5px;
+  padding: 8px 5px 20px 5px;
 }
 .container.form-container form .form-footer .privacy a {
   text-decoration: underline;

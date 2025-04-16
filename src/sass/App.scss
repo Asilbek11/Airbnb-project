@@ -360,8 +360,7 @@ section {
                 font-family: 'Raleway';
             }
             position: relative;
-            width: 40%;
-            height: 550px;
+            width: 40%; 
             margin-top: 100px;
             border-radius: 30px;
             box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
@@ -415,7 +414,7 @@ section {
                 text-align: center;
             }
             .form-body{
-                padding: 26px;
+                padding: 15px 26px 15px 26px;
                 h1{
                     font-weight: 600;
                     margin-bottom: 20px;
@@ -441,7 +440,7 @@ section {
             .form-footer{
                 padding: 0 26px;
                 .line-box{
-                    padding: 15px 0;
+                    padding: 10px 0;
                     position: relative;
                     .line{
                         width: 100%;
@@ -486,7 +485,7 @@ section {
                 }
                 .privacy{
                     font-size: 14px;
-                    padding:0 5px;
+                    padding:8px 5px 20px 5px;
                     a{
                         text-decoration: underline;
                         cursor: pointer;
