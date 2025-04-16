@@ -4,6 +4,7 @@ import {Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Wishlist from './components/Wishlist';
 import Login from './components/Login';
+import Register from './components/Register';
 let categoryData = [
   {
     "id": "TAB_789",
@@ -4722,7 +4723,8 @@ function App() {
       <Routes>
           <Route path="/" element={<Home cat_data={categoryData} data={itemData}/>}/>
           <Route path="/wishlist" element={<Wishlist data={itemData} />}/> 
-          <Route path="/login" element={<Login />}/> 
+          <Route path="/register" element={<Register />}/> 
+          <Route path="/login" element={<Login />}/>
       </Routes>
     </div>
   );

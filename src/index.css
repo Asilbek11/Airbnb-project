@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,87.5,200..1000;1,6..12,87.5,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,87.5,200..1000;1,6..12,87.5,200..1000&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 *{
   margin: 0;
   padding: 0;
@@ -16,6 +16,7 @@
   --silver:#747474FF;
   --black:#000000FF;
   --pagination:rgb(247, 247, 247);
+  --linaria: radial-gradient(circle at center, #FF385C 0%, #E61E4D 27.5%, #E31C5F 40%, #D70466 57.5%, #BD1E59 75%, #BD1E59 100%);
 }
 body{
   background-color: #ffff;
