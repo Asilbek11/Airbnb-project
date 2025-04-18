@@ -27,10 +27,10 @@ export default function Register() {
     //     };
     // }, []);
     const fields = [
-        { name: "name", type: "text", required: true, placeholder: "Name" },
+        { name: "username", type: "text", required: true, placeholder: "Name" },
         { name: "email",  type: "email", required: true, placeholder: "Email" },
         { name: "password",  type: "password", required: true, placeholder: "Password" },
-        { name: "number",  type: "number", required: true, placeholder: "Phone number" }
+        { name: "phone_number",  type: "number", required: true, placeholder: "Phone number" }
       ];
     
     return (
