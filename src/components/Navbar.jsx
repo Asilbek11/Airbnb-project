@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Categorys from './Categorys';
 
-export default function Navbar({cat_data}) {
+export default function Navbar() {
     let [active, setActive] = useState('');
     const navigate = useNavigate();
     let [isActive, setIsActive] = useState(false)
@@ -117,7 +117,7 @@ export default function Navbar({cat_data}) {
                             </div>
                         </div>
                     </nav>
-                    {isCorrectPage ? <Categorys data={cat_data}/> : '' }
+                    {isCorrectPage ? <Categorys/> : '' }
                 </div>
         </>
     )
