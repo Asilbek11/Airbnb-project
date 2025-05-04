@@ -37,6 +37,34 @@ export default function Form({ fields }) {
             btn.removeEventListener("mousemove", handleMouseMove);
         }
     }, []);
+    const [formData, setFormData] = useState({ username: "", email: "", password: "", phone_number: "" });
+    function registerLogin(e) {
+        e.preventDefault();
+        if(page == "/register"){
+            fetch("http://booking/api/user/register",{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({...formData})
+            }).then(res => res.json())
+            .then(result => console.log(result));
+        }else{
+            fetch("http://booking/api/user/login",{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: {
+                    email: formData.email,
+                    password: formData.password
+                }
+            }).then(res => res.json())
+            .then(result => console.log(result));
+        }
+    }
     return (
         <>
             <form action={verify ? '/login' : '/verify'} className="form">
@@ -65,6 +93,12 @@ export default function Form({ fields }) {
                                             placeholder={field.placeholder}
                                             required={field.required}
                                             id={id}
+                                            value={formData[field.name]}
+                                            onChange={(e) => {
+                                                let newObj = { ...formData };
+                                                newObj[field.name] = e.target.value;
+                                                setFormData(newObj);
+                                            }}
                                         />
                                     </label>
                                 </> : <>
@@ -78,6 +112,12 @@ export default function Form({ fields }) {
                                         placeholder={field.placeholder}
                                         required={field.required}
                                         id={id}
+                                        value={formData[field.name]}
+                                        onChange={(e) => {
+                                            let newObj = { ...formData };
+                                            newObj[field.name] = e.target.value;
+                                            setFormData(newObj);
+                                        }}
                                     />
                                 </>
                         ))}
@@ -85,7 +125,7 @@ export default function Form({ fields }) {
                 </div>
                 <div className="form-footer">
                     <div className="submit">
-                        <input type="submit" value='Continue' ref={buttonRef} />
+                        <input type="submit" onClick={(e) => registerLogin(e)} value='Continue' ref={buttonRef} />
                     </div>
                     <div className='line-box'>
                         <div className='line'></div>

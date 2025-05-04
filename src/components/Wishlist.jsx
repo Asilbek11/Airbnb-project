@@ -2,7 +2,8 @@ import React from 'react'
 import Navbar from './Navbar'
 import Cards from './Cards'
 
-export default function Wishlist({data}) {
+export default function Wishlist() {
+  let data = [];
   return (
     <>
     <header>
