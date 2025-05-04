@@ -1,10 +1,11 @@
-import { useState } from 'react';
 import './App.css';
-import {Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Wishlist from './components/Wishlist';
 import Login from './components/Login';
 import Register from './components/Register';
+import CreateHost from './components/CreateHost';
+import Verify from './components/Verify';
 let categoryData = [
   {
     "id": "TAB_789",
@@ -4721,10 +4722,12 @@ function App() {
   return (
     <div className="container-main">
       <Routes>
-          <Route path="/" element={<Home cat_data={categoryData} data={itemData}/>}/>
-          <Route path="/wishlist" element={<Wishlist data={itemData} />}/> 
-          <Route path="/register" element={<Register />}/> 
-          <Route path="/login" element={<Login />}/>
+        <Route path="/" element={<Home cat_data={categoryData} data={itemData} />} />
+        <Route path="/wishlist" element={<Wishlist data={itemData} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/create-host" element={<CreateHost />} />
+        <Route path="/verify" element={<Verify />} />
       </Routes>
     </div>
   );

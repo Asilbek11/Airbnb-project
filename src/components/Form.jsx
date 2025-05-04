@@ -6,6 +6,7 @@ export default function Form({ fields }) {
     const buttonRef = useRef(null);
     const navigate = useNavigate(false);
     const location = useLocation();
+    const verify = fields[0].verify;
     const [showPassword, setShowPassword] = useState(false);
     const [page, setPage] = useState(location.pathname);
     const togglePassword = () => {
@@ -20,7 +21,6 @@ export default function Form({ fields }) {
             setPage('login');
         }
     }
-    console.log(page);
     useEffect(() => {
         const handleMouseMove = (e) => {
             const rect = buttonRef.current.getBoundingClientRect();
@@ -39,12 +39,12 @@ export default function Form({ fields }) {
     }, []);
     return (
         <>
-            <form action="#" className="form">
+            <form action={verify ? '/login' : '/verify'} className="form">
                 <div className='form-head'>
                     <h1>Log in or sign up</h1>
                 </div>
                 <div className="form-body">
-                    <h1>Welcome to Airbnb</h1>
+                <h1>{verify ? 'Verify to login' : ''}</h1>
                     <div className="form-action">
                         {fields.map((field, id) => (
                             field.type === 'password' ?
@@ -93,7 +93,7 @@ export default function Form({ fields }) {
                     </div>
                     <div className="auth-forms">
                         <div className="auth-box">
-                            <button className="button-auth">
+                            <button className="button-auth" >
                                 <FcGoogle />
                                 Continue with Google
                             </button>
@@ -102,7 +102,7 @@ export default function Form({ fields }) {
                     <div className="privacy">
                         {page == '/register'
                             ?  <p>Already have an account? <a onClick={navigateClick}>Log in</a> now!</p>
-                            : <p>Don't have an account? <a onClick={navigateClick}>Register</a> now!</p>}
+                            :  <p>Don't have an account? <a onClick={navigateClick}>Register</a> now!</p>}
                     </div>
                 </div>
             </form>

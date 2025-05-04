@@ -5,6 +5,7 @@ export default function Login() {
     { name: "email", type: "email", required: true, placeholder: "Email" },
     { name: "password", type: "password", required: true, placeholder: "Password" }
   ];
+  
   return (
     <>
       <header>
