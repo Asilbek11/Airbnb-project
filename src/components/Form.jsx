@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { UserContext } from '../contexts/UserContext';
 export default function Form({ fields }) {
+    const [user,setUser] = useContext(UserContext);
     const buttonRef = useRef(null);
     const navigate = useNavigate(false);
     const location = useLocation();
@@ -12,15 +14,14 @@ export default function Form({ fields }) {
         setShowPassword((prev) => !prev)
     }
     const navigateClick = () => {
-        if (location.pathname === '/login') {
+        if (location.pathname === '/register') {
+            navigate('/login/0');
+            setPage('login');
+        } else {
             navigate('/register');
             setPage('register');
-        } else {
-            navigate('/login');
-            setPage('login');
         }
     }
-    console.log(page);
     useEffect(() => {
         const handleMouseMove = (e) => {
             const rect = buttonRef.current.getBoundingClientRect();
@@ -48,8 +49,17 @@ export default function Form({ fields }) {
                 },
                 credentials: 'include',
                 body: JSON.stringify({...formData})
-            }).then(res => res.json())
-            .then(result => console.log(result));
+            }).then(res => {
+                if(res.ok){
+                    return res.json();
+                }else{
+                    throw res.json();
+                }
+            })
+            .then(result => navigate('/verify'))
+            .catch(err => {
+                err.then(err => alert(err.error))
+            });
         }else{
             fetch("http://booking/api/user/login",{
                 method: "POST",
@@ -57,12 +67,25 @@ export default function Form({ fields }) {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: {
-                    email: formData.email,
+                body: JSON.stringify({
+                    username: formData.email,
                     password: formData.password
+                }) 
+            })
+            .then(res => {
+                if(res.ok){
+                    return res.json();
+                }else{
+                    throw res.json();
                 }
-            }).then(res => res.json())
-            .then(result => console.log(result));
+            })
+            .then(result => {
+                setUser(result.user_profile);
+                navigate('/');
+            })
+            .catch(err => {
+                err.then(err => alert(err.error))
+            });
         }
     }
     return (

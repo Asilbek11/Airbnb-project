@@ -17,7 +17,7 @@ function Cards({data}) {
   };
   return (
     <>
-      {data.length > 0 ? data.map((item, index) => (
+      {data?.length > 0 ? data.map((item, index) => (
         <div className="item-wrp">
           <div className="item" key={item.id}>
             <div className='item-dad'>

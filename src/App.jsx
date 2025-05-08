@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import './App.css';
-import {Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Wishlist from './components/Wishlist';
 import Login from './components/Login';
 import Register from './components/Register';
+import Verify from './components/Verify';
+import { UserContext } from './contexts/UserContext';
+import { WishlistContext } from './contexts/WishlistContext';
 /*let categoryData = [
   {
     "id": "TAB_789",
@@ -4718,14 +4721,22 @@ import Register from './components/Register';
 
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [wishlist, setWishlist] = useState(null);
+
   return (
     <div className="container-main">
-      <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/wishlist" element={<Wishlist />}/> 
-          <Route path="/register" element={<Register />}/> 
-          <Route path="/login" element={<Login />}/>
-      </Routes>
+      <UserContext.Provider value={[user, setUser]}>
+        <WishlistContext.Provider value={[wishlist, setWishlist]}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login/:key" element={<Login />} />
+            <Route path="/verify" element={<Verify />} />
+          </Routes>
+        </WishlistContext.Provider>
+      </UserContext.Provider>
     </div>
   );
 }

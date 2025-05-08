@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from './Navbar'
 import Cards from './Cards'
+import { WishlistContext } from '../contexts/WishlistContext';
 
 export default function Wishlist() {
-  let data = [];
+  const [data,setData] = useContext(WishlistContext);
   return (
     <>
     <header>
