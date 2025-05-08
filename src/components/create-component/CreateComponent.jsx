@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { motion } from "framer-motion";
 
 
-export default function CreateComponent() {
+export default function CreateComponent({ fields }) {
     const ref = useRef();
     useEffect(() => void setTimeout(() => ref.current?.play(), 500), []);
     return (
@@ -13,13 +13,13 @@ export default function CreateComponent() {
                 transition={{ duration: 2 }}
                 className='title'
             >
-                    <p>Step 1</p>
-                    <h1>Tell us about your place</h1>
-                    <span>In this step, we'll ask you which type of property you have and if <br /> guests will book the entire place or just a room. Then let us know the <br /> location and how many guests can stay.</span>
+                <p>{fields.step}</p>
+                <h1>{fields.title}</h1>
+                <span>{fields.description}</span>
             </motion.div>
 
             <div className="content">
-                <video ref={ref} src="../vid.mp4" muted></video>
+                <video ref={ref} src={ fields.videoUrl ? '../vid1.mp4' : '../vid.mp4'} muted></video>
             </div>
         </div>
     )

@@ -12,7 +12,7 @@ export default function Navbar({ cat_data }) {
     let createPage = false;
     let loginPage = false;
     if (location.pathname == '/login' || location.pathname == '/register' || location.pathname == '/verify') {loginPage = true;}
-    if (location.pathname == '/create-host') {createPage = true;}
+    if (location.pathname.startsWith("/create-host")) {createPage = true;}
     if (location.pathname == '/') {
         isCorrectPage = true;
         wishlistPage = true
@@ -116,7 +116,7 @@ export default function Navbar({ cat_data }) {
                                 </div>
                                 <div>
                                     <ul>
-                                        <li><a onClick={() => handleClick('/create-host')}>Create host</a></li>
+                                        <li><a onClick={() => handleClick('/create-host/1')}>Create host</a></li>
                                         <li><a onClick={() => handleClick('/register')}>Register</a></li>
                                         <li><a onClick={() => handleClick('/login')} >Log in</a></li>
                                     </ul>

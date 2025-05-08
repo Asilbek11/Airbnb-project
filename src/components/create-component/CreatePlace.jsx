@@ -101,7 +101,7 @@ export default function CreatePlace() {
         AOS.init({
           duration: 600,
           once: true,
-          offset: 0
+          offset: -150
         });
       }, []);
     return (
