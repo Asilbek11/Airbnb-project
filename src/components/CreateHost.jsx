@@ -6,6 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import CreateUserCount from './create-component/CreateUserCount';
 import CreateDescription from './create-component/CreateDescription';
 import { useNavigate, useParams } from 'react-router-dom';
+import CreateTitle from './create-component/CreateTitle';
+import CreatePrice from './create-component/CreatePrice';
+import CreateMap from './create-component/CreateMap';
 
 export default function CreateHost() {
   const {step} = useParams();
@@ -21,7 +24,7 @@ export default function CreateHost() {
     });
   }, [])
   const nextPage = () => {
-    if (step < 6) {
+    if (step < 8) {
       navigate(`/create-host/${parseFloat(step)+1}`);
     }else{
       navigate('/')
@@ -45,6 +48,7 @@ export default function CreateHost() {
           location and how many guests can stay.
         </>
       ),
+      videoUrl: "../vid.mp4"
     },
     {
       step: "Step 2",
@@ -60,6 +64,7 @@ export default function CreateHost() {
           offers, plus 5 or more photos. Then, you’ll create a title and description.
         </>
       ),
+      videoUrl: "../vid1.mp4"
     },
     {
       step: "Step 3",
@@ -73,7 +78,7 @@ export default function CreateHost() {
           Finally, you'll choose booking settings, set up pricing, and publish your <br /> listing.
         </>
       ),
-      videoUrl: true
+      videoUrl: "../vid2.mp4"
     },
   ];
 
@@ -138,12 +143,45 @@ export default function CreateHost() {
                   exit={{ opacity: 0 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
                 >
-                  <CreateDescription fields={fields[1]} />
+                  <CreateTitle />
                 </motion.div>
               )}
               {parseInt(step) === 6 && (
                 <motion.div
                   key={6}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  <CreateDescription />
+                </motion.div>
+              )}
+               {parseInt(step) === 7 && (
+                <motion.div
+                  key={7}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  <CreatePrice />
+                </motion.div>
+              )}
+              {parseInt(step) === 8 && (
+                <motion.div
+                  key={8}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  <CreateMap/>
+                </motion.div>
+              )}
+              {parseInt(step) === 9 && (
+                <motion.div
+                  key={9}
                   initial={{ opacity: 0}}
                   animate={{ opacity: 1}}
                   exit={{ opacity: 0 }}
@@ -153,7 +191,6 @@ export default function CreateHost() {
                 </motion.div>
               )}
             </AnimatePresence>
-
           }
         </div>
       </section>
@@ -166,7 +203,7 @@ export default function CreateHost() {
             Back
           </button>
           <button className="next-btn" onClick={nextPage}>
-            {step < 6 ? 'Next' : 'Finish' } 
+            {step < 8 ? 'Next' : 'Finish' } 
           </button>
         </div>
       </footer>

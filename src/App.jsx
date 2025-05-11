@@ -6,6 +6,9 @@ import Login from './components/Login';
 import Register from './components/Register';
 import CreateHost from './components/CreateHost';
 import Verify from './components/Verify';
+import Profile from './components/Profile';
+import Rooms from './components/Rooms';
+import CreatePrice from './components/create-component/CreatePrice';
 let categoryData = [
   {
     "id": "TAB_789",
@@ -4728,6 +4731,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/create-host/:step" element={<CreateHost />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/rooms" element={<Rooms />} />
+        <Route path="/price" element={<CreatePrice />} />
       </Routes>
     </div>
   );

@@ -24,6 +24,7 @@ export default function Home() {
       <section className='items-body'>
         <div className="container card-container">
           <Cards data={data}/>
+          <h1 style={{margin:'400px'}}>erfergerg</h1>
         </div>
       </section>
       <Outlet />
