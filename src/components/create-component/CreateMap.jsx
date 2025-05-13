@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const CreateMap = () => {
   const [location, setLocation] = useState(null);
+  const [error, setError] = useState(null);
+  const query = 'Tashkent';
 
   useEffect(() => {
     const fetchLocation = async () => {
       const apiKey = process.env.REACT_APP_POSITIONSTACK_KEY;
-      const city = 'Tashkent';
 
       try {
-        const response = await fetch(
-          `https://api.positionstack.com/v1/forward?access_key=${apiKey}&query=${city}`
-        );
-        const data = await response.json();
+        const response = await axios.get('http://api.positionstack.com/v1/forward', {
+          params: {
+            access_key: apiKey,
+            query: query
+          }
+        });
+
+        const data = response.data;
+
         if (data && data.data && data.data.length > 0) {
           setLocation(data.data[0]);
+        } else {
+          setError('Manzil topilmadi');
         }
-      } catch (error) {
-        console.error('Xatolik:', error);
+      } catch (err) {
+        console.error(err);
+        setError('So‘rovda xatolik yuz berdi');
       }
     };
 
@@ -26,7 +36,8 @@ const CreateMap = () => {
 
   return (
     <div>
-      <h2>Joylashuv ma'lumotlari:</h2>
+      <h2>Manzil Ma'lumotlari</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       {location ? (
         <div>
           <p><strong>Manzil:</strong> {location.label}</p>
@@ -34,7 +45,7 @@ const CreateMap = () => {
           <p><strong>Uzunlik:</strong> {location.longitude}</p>
         </div>
       ) : (
-        <p>Yuklanmoqda...</p>
+        !error && <p>Yuklanmoqda...</p>
       )}
     </div>
   );

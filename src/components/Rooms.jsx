@@ -8,8 +8,15 @@ export default function Rooms() {
                 <Navbar />
             </header>
 
-            <section>
-                
+            <section className='rooms'>
+                <div className="container room-container sm">
+                    <div className="title">
+                        <h2>Grandfather's cosy cabin by riverbank</h2>
+                    </div>
+                    <div className="img-wrapper">
+
+                    </div>
+                </div>
             </section>
         </>
     )

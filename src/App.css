@@ -28,7 +28,7 @@ header nav.active {
 }
 header nav .logo {
   align-self: first baseline;
-  padding: 5px 35px 5px 0;
+  padding: 10px 35px 0 0;
   cursor: pointer;
 }
 header nav .logo svg {
@@ -124,6 +124,9 @@ section.wishlist-body {
 }
 section.items-body {
   margin-top: 270px;
+}
+section.rooms {
+  margin-top: 70px;
 }
 
 .container-main > header {
@@ -431,6 +434,13 @@ section.items-body {
 .container.form-container form .form-footer .privacy a {
   text-decoration: underline;
   cursor: pointer;
+}
+.container.room-container.sm {
+  padding: 0 200px;
+}
+.container.room-container .title h2 {
+  font-weight: 650;
+  font-size: 30px;
 }
 
 .step-form {

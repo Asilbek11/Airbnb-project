@@ -34,7 +34,7 @@ header {
 
         .logo {
             align-self: first baseline;
-            padding: 5px 35px 5px 0;
+            padding: 10px 35px 0 0;
             cursor: pointer;
 
             svg {
@@ -151,6 +151,9 @@ section {
 
     &.items-body {
         margin-top: 270px;
+    }
+    &.rooms{
+        margin-top: 70px;
     }
 }
 
@@ -535,6 +538,18 @@ section {
                         cursor: pointer;
                     }
                 }
+            }
+        }
+    }
+    
+    &.room-container{
+        &.sm {
+            padding: 0 200px;
+        }
+        .title{
+            h2{
+                font-weight: 650;
+                font-size: 30px;
             }
         }
     }
@@ -1100,6 +1115,7 @@ section {
         }
     }
 }
+
 .location-search {
     position: relative;
     max-width: 400px;
@@ -1149,7 +1165,7 @@ section {
         }
       }
     }
-  }
+}
   
 .profile-section {
     display: flex;
