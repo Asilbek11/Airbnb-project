@@ -9,6 +9,7 @@ import Verify from './components/Verify';
 import Profile from './components/Profile';
 import Rooms from './components/Rooms';
 import CreatePrice from './components/create-component/CreatePrice';
+import Practise from './components/Practise';
 let categoryData = [
   {
     "id": "TAB_789",
