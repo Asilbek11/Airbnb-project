@@ -622,7 +622,37 @@ section {
                         }
                     }
                 }
-
+                .content-owner{
+                    .owner{
+                        display: flex;
+                        gap: 20px;
+                        padding-bottom: 30px;
+                        margin-bottom: 20px;
+                        border-bottom: 1px solid var(--main-border);
+                        p{
+                            font-weight: 700;
+                        }
+                        span{
+                            font-weight: 600;
+                            color: var(--silver);
+                        }
+                        .avatar-box{
+                            display: flex;
+                            align-items: center;
+                            position: relative;
+                            
+                            img{
+                                border-radius: 50%;
+                                position: relative;
+                                width: 50px;
+                                height: 50px;
+                            }
+                        }
+                    }
+                    .owner-desc{
+                        font-weight: 580;
+                    }
+                }
             }
 
             .order-wrapper {
@@ -641,7 +671,7 @@ section {
                 padding: 20px;
                 border: 1px solid var(--main-border);
                 border-radius: 10px;
-
+                margin-bottom: 40px;
                 >div {
                     display: flex;
                 }
@@ -717,7 +747,7 @@ section {
 
             &.fixed {
                 position: fixed;
-                top: 120px;
+                top: 105px;
                 z-index: 10;
             }
 
@@ -758,37 +788,113 @@ section {
             }
 
             .date {
-                .rdrCalendarWrapper{
+                position: relative;
+                font-size: 20px !important;
+
+                .rdrDays {
+                    button {
+                        border-radius: 50%;
+                        font-size: 14px;
+                    }
+                }
+                .rdrDayNumber{
+                    position: relative;
+                    left: unset;
+                    right: unset;
+                    bottom: unset;
+                    top: unset;
+                    color: #fff;
+                } 
+                .rdrDayHovered {
+                    border: none !important;
+                    outline: none !important;
+                    background-color: #fff;
+                    border: 1px solid #000000;
+                    color: #fff;
+                    >span {
+                        border: unset !important;
+                        outline: unset !important;
+                        border: 1px solid #000000;
+                    }
+                }
+
+                .rdrDayNumber span {
+                    font-size: 15px;
+                }
+
+                .rdrStartEdge,
+                .rdrEndEdge {
+                    background-color: #000000;
+                }
+
+                .rdrYearPicker {
+                    option {
+                        font-size: 30px;
+                    }
+
+                }
+
+                .rdrWeekDay {
+                    color: #000000;
+                    font-size: 12px;
+                    font-weight: 650;
+                }
+
+                .rdrMonth {
+                    .rdrMonthName {
+                        padding: 0;
+                        text-align: center;
+                        font-size: 18px;
+                        color: #000000;
+                    }
+                }
+
+                .rdrCalendarWrapper {
                     position: relative;
                     width: 100%;
-                } 
+                }
+
                 .rdrDateDisplayWrapper {
-                    .rdrDateDisplay{
+                    .rdrDateDisplay {
                         display: flex;
-                        >span{
+
+                        >span {
                             margin: 0;
                         }
                     }
+
                     >* {
-                        all: unset ;
+                        all: unset;
                     }
-                    
+
                 }
-                .rdrMonthAndYearWrapper{
+
+                .rdrMonthAndYearWrapper {
+                    border-radius: 15px 15px 0 0;
+                    box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 20px !important;
                     top: 40px;
                 }
-                .rdrMonths{
+
+                .rdrMonths {
+                    border-radius: 0 0 15px 15px;
                     top: 100px;
+                    box-shadow: rgba(0, 0, 0, 0.2) 0px 15px 20px !important;
                 }
-                .rdrMonthAndYearWrapper, .rdrMonths{
-                    width: 100%;
-                    position: absolute;
+
+                .rdrMonthAndYearWrapper,
+                .rdrMonths {
+                    opacity: 0;
+                    visibility: hidden;
+                    padding: 15px;
+                    width: 600px;
                     background-color: #fff;
-                    
+                    position: absolute;
+                    right: -30px;
                 }
-                
+
             }
         }
+
     }
 }
 

@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from './Navbar'
 import { GiCutDiamond } from "react-icons/gi";
 import { DateRange } from 'react-date-range';
+import { enUS } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css';
+
 export default function Rooms() {
+    const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
     const images = [
         '/img/img1.avif', // katta rasm
         '/img/img2.avif',
@@ -11,6 +14,17 @@ export default function Rooms() {
         '/img/img4.avif',
         '/img/img5.avif'
     ];
+    const customLocale = {
+        ...enUS,
+        formatLong: {
+            ...enUS.formatLong,
+            date: () => 'MM/dd/yyyy',
+        },
+        localize: {
+            ...enUS.localize,
+            day: (n) => ['S', 'M', 'T', 'W', 'T', 'F', 'S'][n],
+        }
+    };
     const [state, setState] = useState([
         {
             startDate: new Date(),
@@ -18,8 +32,16 @@ export default function Rooms() {
             key: 'selection'
         }
     ]);
+    function handleSelect(ranges) {
+        setState([ranges.selection]);
+        if (ranges.selection.endDate) {
+
+        }
+    }
     let [active, setActive] = useState('');
     let [isFixed, setIsFixed] = useState(false);
+    const pickerRef = useRef();
+
     useEffect(() => {
         window.addEventListener('scroll', () => {
             if (window.scrollY < 540) {
@@ -71,7 +93,7 @@ export default function Rooms() {
                             <div className="content-info">
                                 <div className="title-room">
                                     <h4>Entire rental unit in Dubai, United Arab Emirates</h4>
-                                    <p>4 guests1 bedroom2 beds1.5 baths</p>
+                                    <p>4 guests · 1 bedroom · 2 beds · 1.5 baths</p>
                                 </div>
                             </div>
                             <div className="content-rate">
@@ -107,6 +129,20 @@ export default function Rooms() {
                                     </div>
                                 </div>
                             </div>
+                            <div className="content-owner">
+                                <div className="owner">
+                                    <div className="avatar-box">
+                                        <img src="/img/owner.avif" alt="" />
+                                    </div>
+                                    <div className="owner-info">
+                                        <p>Hosted by Aina</p>
+                                        <span>Superhost  ·  5 years hosting</span>
+                                    </div>
+                                </div>
+                                <div className="owner-desc">
+                                    <span>Fresh apartment in japandi style, light, newly refurbished and designed. All electronic equipment is newly bought, has all necessary beddings and towels just like in a hotel. The neighbourhood has ex-McDonalds, Starbucks, RIXOS hotel, national cuisine restaurants. The apartment is located at the heart of Almaty with a view to the stadium and the mountains (Koktobe). Downstairs there is a mini-market, 24/7 wine & beer store, fresh bakery, coffee. We offer free foreign guest registration.</span>
+                                </div>
+                            </div>
                         </div>
                         <div className="order-wrapper">
                             <div className={`order-rate ${isFixed ? 'fixed' : ''}`} >
@@ -119,13 +155,16 @@ export default function Rooms() {
                                         <span>$120</span> for 2 nights
                                     </div>
                                     <div className="date">
-                                        <div className="check-in">
+                                        <div className="check-in" ref={pickerRef}>
                                             <DateRange
+                                                locale={customLocale}
                                                 editableDateInputs={true}
-                                                onChange={item => setState([item.selection])}  // Bu yerda onChange funksiyasi bo'lishi kerak
-                                                
+                                                onChange={handleSelect}  // Bu yerda onChange funksiyasi bo'lishi kerak
+                                                months={2}
+                                                direction="horizontal"
+                                                rangeColors={[color]}
                                                 ranges={state}
-                                                rangeColors={['#FF385C']}
+
                                             />
                                         </div>
                                         <div className="guest">

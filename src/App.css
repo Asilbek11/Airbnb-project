@@ -500,6 +500,34 @@ section.items-body {
   font-size: 18px;
   font-weight: 500;
 }
+.container.room-container .guest-content .content .content-owner .owner {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--main-border);
+}
+.container.room-container .guest-content .content .content-owner .owner p {
+  font-weight: 700;
+}
+.container.room-container .guest-content .content .content-owner .owner span {
+  font-weight: 600;
+  color: var(--silver);
+}
+.container.room-container .guest-content .content .content-owner .owner .avatar-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.container.room-container .guest-content .content .content-owner .owner .avatar-box img {
+  border-radius: 50%;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+.container.room-container .guest-content .content .content-owner .owner-desc {
+  font-weight: 580;
+}
 .container.room-container .guest-content .order-wrapper {
   position: relative;
   flex: 3;
@@ -514,6 +542,7 @@ section.items-body {
   padding: 20px;
   border: 1px solid var(--main-border);
   border-radius: 10px;
+  margin-bottom: 40px;
 }
 .container.room-container .content-rate .guest-rate > div {
   display: flex;
@@ -573,7 +602,7 @@ section.items-body {
 }
 .container.room-container .order-rate.fixed {
   position: fixed;
-  top: 120px;
+  top: 105px;
   z-index: 10;
 }
 .container.room-container .order-rate > div {
@@ -605,6 +634,55 @@ section.items-body {
   font-size: 24px;
   font-weight: 730;
 }
+.container.room-container .order-bar .date {
+  position: relative;
+  font-size: 20px !important;
+}
+.container.room-container .order-bar .date .rdrDays button {
+  border-radius: 50%;
+  font-size: 14px;
+}
+.container.room-container .order-bar .date .rdrDayNumber {
+  position: relative;
+  left: unset;
+  right: unset;
+  bottom: unset;
+  top: unset;
+  color: #fff;
+}
+.container.room-container .order-bar .date .rdrDayHovered {
+  border: none !important;
+  outline: none !important;
+  background-color: #fff;
+  border: 1px solid #000000;
+  color: #fff;
+}
+.container.room-container .order-bar .date .rdrDayHovered > span {
+  border: unset !important;
+  outline: unset !important;
+  border: 1px solid #000000;
+}
+.container.room-container .order-bar .date .rdrDayNumber span {
+  font-size: 15px;
+}
+.container.room-container .order-bar .date .rdrStartEdge,
+.container.room-container .order-bar .date .rdrEndEdge {
+  background-color: #000000;
+}
+.container.room-container .order-bar .date .rdrYearPicker option {
+  font-size: 30px;
+}
+.container.room-container .order-bar .date .rdrWeekDay {
+  color: #000000;
+  font-size: 12px;
+  font-weight: 650;
+}
+.container.room-container .order-bar .date .rdrMonth .rdrMonthName {
+  padding: 0;
+  text-align: center;
+  font-size: 18px;
+  color: #000000;
+}
 .container.room-container .order-bar .date .rdrCalendarWrapper {
   position: relative;
   width: 100%;
@@ -619,15 +697,24 @@ section.items-body {
   all: unset;
 }
 .container.room-container .order-bar .date .rdrMonthAndYearWrapper {
+  border-radius: 15px 15px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 20px !important;
   top: 40px;
 }
 .container.room-container .order-bar .date .rdrMonths {
+  border-radius: 0 0 15px 15px;
   top: 100px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 15px 20px !important;
 }
-.container.room-container .order-bar .date .rdrMonthAndYearWrapper, .container.room-container .order-bar .date .rdrMonths {
-  width: 100%;
-  position: absolute;
+.container.room-container .order-bar .date .rdrMonthAndYearWrapper,
+.container.room-container .order-bar .date .rdrMonths {
+  opacity: 0;
+  visibility: hidden;
+  padding: 15px;
+  width: 600px;
   background-color: #fff;
+  position: absolute;
+  right: -30px;
 }
 
 .rooms .link-bar {
