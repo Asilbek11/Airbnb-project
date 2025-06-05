@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Navbar from './Navbar'
 import { GiCutDiamond } from "react-icons/gi";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { DateRange } from 'react-date-range';
 import { enUS } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css';
@@ -29,18 +30,52 @@ export default function Rooms() {
         {
             startDate: new Date(),
             endDate: new Date(),
-            key: 'selection'
-        }
+            key: 'selection',
+        },
     ]);
+
+    const [calendarVisible, setCalendarVisible] = useState(true);
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [count, setCount] = useState({adults:1, children:0, infants: 0, pets: 0}); 
+    const calendarRef = useRef(null);
+    const menu = useRef(null);
     function handleSelect(ranges) {
         setState([ranges.selection]);
-        if (ranges.selection.endDate) {
-
+        const selection = ranges.selection;
+        const start = selection.startDate;
+        const end = selection.endDate;
+        if (start && end && start.getTime() !== end.getTime()) {
+            setCalendarVisible(true);
         }
     }
+    useEffect(() => {
+        const handleClick = (e) => {
+            const isInside = calendarRef.current?.contains(e.target);
+            const isDateInput = e.target.closest('.rdrDateInput');
+
+            if (isDateInput) {
+                setCalendarVisible(false);
+            } else if (!isInside) {
+                setCalendarVisible(true);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
+    useEffect(() => {
+        const handleClick = (e) => {
+            const isInside = menu.current?.contains(e.target);
+            if (!isInside) {
+                setMenuVisible(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
     let [active, setActive] = useState('');
     let [isFixed, setIsFixed] = useState(false);
-    const pickerRef = useRef();
 
     useEffect(() => {
         window.addEventListener('scroll', () => {
@@ -56,7 +91,7 @@ export default function Rooms() {
             }
         });
     }, [])
-    console.log(state);
+
     return (
         <>
             <header className='active'>
@@ -155,20 +190,110 @@ export default function Rooms() {
                                         <span>$120</span> for 2 nights
                                     </div>
                                     <div className="date">
-                                        <div className="check-in" ref={pickerRef}>
+                                        <div className="check-in" ref={calendarRef}>
                                             <DateRange
                                                 locale={customLocale}
                                                 editableDateInputs={true}
-                                                onChange={handleSelect}  // Bu yerda onChange funksiyasi bo'lishi kerak
+                                                onChange={handleSelect}
                                                 months={2}
                                                 direction="horizontal"
                                                 rangeColors={[color]}
                                                 ranges={state}
-
                                             />
                                         </div>
-                                        <div className="guest">
-
+                                        <div className="guest-section">
+                                            <div className="guest-wrapper" ref={menu}>
+                                                <div className="guest" onClick={()=>(setMenuVisible(!menuVisible))}>
+                                                    <div>
+                                                        <span>GUESTS</span>
+                                                        <p>1 guest</p>
+                                                    </div>
+                                                    {menuVisible ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                                                </div>
+                                                <div className={`guest-menu ${menuVisible ? 'visible' : ''}`} >
+                                                    <div className="guest-select">
+                                                        <div className="option">
+                                                            <div className="guest-person">
+                                                                <p>Adults</p>
+                                                                <span>Age 13+</span>
+                                                            </div>
+                                                            <div className="guest-count">
+                                                                <div class="count-bar">
+                                                                    <button  onClick={() => setCount({...count, adults:count.adults-1})} disabled={count.adults <= 1}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <span>{count.adults}</span>
+                                                                    <button onClick={() => setCount({...count, adults:count.adults+1})}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="option">
+                                                            <div className="guest-person">
+                                                                <p>Children</p>
+                                                                <span>Ages 2–12</span>
+                                                            </div>
+                                                            <div className="guest-count">
+                                                                <div class="count-bar">
+                                                                    <button  onClick={() => setCount({...count, children:count.children-1})} disabled={count.children < 1}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <span>{count.children}</span>
+                                                                    <button onClick={() => setCount({...count, children:count.children+1})}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="option">
+                                                            <div className="guest-person">
+                                                                <p>Infants</p>
+                                                                <span>Under 2</span>
+                                                            </div>
+                                                            <div className="guest-count">
+                                                                <div class="count-bar">
+                                                                    <button  onClick={() => setCount({...count, infants:count.infants-1})} disabled={count.infants < 1}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <span>{count.infants}</span>
+                                                                    <button onClick={() => setCount({...count, infants:count.infants-1})}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="option">
+                                                            <div className="guest-person">
+                                                                <p>Pets</p>
+                                                                <span className='service'>Bringing a service animal?</span>
+                                                            </div>
+                                                            <div className="guest-count">
+                                                                <div class="count-bar">
+                                                                    <button  onClick={() => setCount({...count, pets:count.pets-1})} disabled={count.pets < 1}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <span>{count.pets}</span>
+                                                                    <button onClick={() => setCount({...count, pets:count.pets+1})}>
+                                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="info-title">
+                                                            <span>This place has a maximum of 3 guests, not including infants. Pets aren't allowed.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -178,6 +303,16 @@ export default function Rooms() {
                 </div>
                 <h1 style={{ margin: '1000px' }}>qweeeeeeeeee</h1>
             </section>
+            <style>
+                {`
+                .rdrMonthAndYearWrapper,
+                .rdrMonths {
+                  opacity: ${calendarVisible ? '0' : '1'} !important;
+                  visibility: ${calendarVisible ? 'hidden' : 'visible'} !important;
+                }
+                `}
+            </style>
         </>
+
     )
 }
