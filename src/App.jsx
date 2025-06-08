@@ -8,6 +8,8 @@ import Verify from './components/Verify';
 import { UserContext } from './contexts/UserContext';
 import { WishlistContext } from './contexts/WishlistContext';
 import CreateHost from './components/CreateHost';
+import { useState } from 'react';
+import HostList from './components/HostList';
 /*let categoryData = [
   {
     "id": "TAB_789",
@@ -4722,7 +4724,22 @@ let itemData = [
 
 function App() {
   const [user, setUser] = useState(null);
-  const [wishlist, setWishlist] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
+
+  if (user) {
+    fetch(`http://booking/api/hotels/get-wishlist?user_id=${user?.id}`)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.json();
+        }
+      })
+      .then(result => setWishlist(result?.hotels))
+      .catch(err => {
+        err.then(err => alert(err.error))
+      });
+  }
 
   return (
     <div className="container-main">
@@ -4735,6 +4752,7 @@ function App() {
             <Route path="/login/:key" element={<Login />} />
             <Route path="/create-host/:step" element={<CreateHost />} />
             <Route path="/verify" element={<Verify />} />
+            <Route path="/hosts" element={<HostList />} />
           </Routes>
         </WishlistContext.Provider>
       </UserContext.Provider>
