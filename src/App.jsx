@@ -5,20 +5,16 @@ import Wishlist from './components/Wishlist';
 import Login from './components/Login';
 import Register from './components/Register';
 import Verify from './components/Verify';
-<<<<<<< HEAD
 import { UserContext } from './contexts/UserContext';
 import { WishlistContext } from './contexts/WishlistContext';
 import CreateHost from './components/CreateHost';
 import { useState } from 'react';
 import HostList from './components/HostList';
-/*let categoryData = [
-=======
 import Profile from './components/Profile';
 import Rooms from './components/Rooms';
 import CreatePrice from './components/create-component/CreatePrice';
 import Practise from './components/Practise';
-let categoryData = [
->>>>>>> 6724343addcea8f797e32ed1d21ef1b8baca2ca2
+/*let categoryData = [
   {
     "id": "TAB_789",
     "title": "Beachfront",
