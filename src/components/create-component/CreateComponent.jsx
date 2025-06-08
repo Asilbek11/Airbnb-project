@@ -19,7 +19,7 @@ export default function CreateComponent({ fields }) {
             </motion.div>
 
             <div className="content">
-                <video ref={ref} src={ fields.videoUrl ? '../vid1.mp4' : '../vid.mp4'} muted></video>
+                <video ref={ref} src={fields.videoUrl} muted></video>
             </div>
         </div>
     )

@@ -8,6 +8,9 @@ import CreateDescription from './create-component/CreateDescription';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HostContext } from '../contexts/HostContext';
 import { UserContext } from '../contexts/UserContext';
+import CreateTitle from './create-component/CreateTitle';
+import CreatePrice from './create-component/CreatePrice';
+import CreateMap from './create-component/CreateMap';
 
 export default function CreateHost() {
   const { step } = useParams();
@@ -39,7 +42,7 @@ export default function CreateHost() {
     });
   }, [])
   const nextPage = () => {
-    if (step < 6) {
+    if (step < 8) {
       navigate(`/create-host/${parseFloat(step) + 1}`);
     } else {
       console.log(hotel);
@@ -58,10 +61,10 @@ export default function CreateHost() {
           throw res.json();
         }
       })
-      .then(result => navigate('/'))
-      .catch(err => {
-        err.then(err => alert(err.error))
-      });
+        .then(result => navigate('/'))
+        .catch(err => {
+          err.then(err => alert(err.error))
+        });
     }
   }
   const prevPage = () => {
@@ -83,6 +86,7 @@ export default function CreateHost() {
           location and how many guests can stay.
         </>
       ),
+      videoUrl: "../vid.mp4"
     },
     {
       step: "Step 2",
@@ -98,6 +102,7 @@ export default function CreateHost() {
           offers, plus 5 or more photos. Then, you’ll create a title and description.
         </>
       ),
+      videoUrl: "../vid1.mp4"
     },
     {
       step: "Step 3",
@@ -111,7 +116,7 @@ export default function CreateHost() {
           Finally, you'll choose booking settings, set up pricing, and publish your <br /> listing.
         </>
       ),
-      videoUrl: true
+      videoUrl: "../vid2.mp4"
     },
   ];
 
@@ -120,7 +125,7 @@ export default function CreateHost() {
       <header style={active ? { margin: 0 } : { border: 'none' }}>
         <Navbar />
       </header>
-      <HostContext.Provider value={[hotel, setHotel]}>
+      {/* <HostContext.Provider value={[hotel, setHotel]}>
         <section>
           <div className="container-create">
             {
@@ -196,6 +201,115 @@ export default function CreateHost() {
             }
           </div>
         </section>
+      </HostContext.Provider> */}
+      <HostContext.Provider value={[hotel, setHotel]}>
+        <section>
+          <div className="container-create">
+            {
+              <AnimatePresence mode="wait">
+                {parseInt(step) === 1 && (
+                  <motion.div
+                    key={1}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateComponent fields={fields[0]} />
+                  </motion.div>
+                )}
+                {parseInt(step) === 2 && (
+                  <motion.div
+                    key={2}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreatePlace />
+                  </motion.div>
+                )}
+                {parseInt(step) === 3 && (
+                  <motion.div
+                    key={3}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateUserCount />
+                  </motion.div>
+                )}
+                {parseInt(step) === 4 && (
+                  <motion.div
+                    key={4}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateComponent fields={fields[1]} />
+                  </motion.div>
+                )}
+                {parseInt(step) === 5 && (
+                  <motion.div
+                    key={5}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateTitle />
+                  </motion.div>
+                )}
+                {parseInt(step) === 6 && (
+                  <motion.div
+                    key={6}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateDescription />
+                  </motion.div>
+                )}
+                {parseInt(step) === 7 && (
+                  <motion.div
+                    key={7}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreatePrice />
+                  </motion.div>
+                )}
+                {parseInt(step) === 8 && (
+                  <motion.div
+                    key={8}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateMap />
+                  </motion.div>
+                )}
+                {parseInt(step) === 9 && (
+                  <motion.div
+                    key={9}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateComponent fields={fields[2]} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            }
+          </div>
+        </section>
       </HostContext.Provider>
       <footer className='footer-fixed'>
         <div className="progress-bar">
@@ -206,10 +320,10 @@ export default function CreateHost() {
             Back
           </button>
           <button className="next-btn" onClick={nextPage}>
-            {step < 6 ? 'Next' : 'Finish'}
-          </button>
-        </div>
-      </footer>
+            {step < 8 ? 'Next' : 'Finish' } 
+          </button >
+        </div >
+      </footer >
     </>
 
 
