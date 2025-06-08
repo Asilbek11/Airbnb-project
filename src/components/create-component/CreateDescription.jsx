@@ -12,7 +12,6 @@ export default function CreateDescription() {
             <input type="text" onChange={(e) => setHotel({...hotel,name: e.target.value})} />
             <div>
                 <textarea cols="10" rows="5" value="You'll have a great time at this comfortable place to stay." onChange={(e) => setHotel({...hotel,description: e.target.value})}></textarea>
-                <textarea cols="10" rows="5"></textarea>
             </div>
         </div>
     </div>
