@@ -4,8 +4,12 @@ import { GiCutDiamond } from "react-icons/gi";
 import { DateRange } from 'react-date-range';
 import { enUS } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css';
+import { useParams } from 'react-router-dom';
 
 export default function Rooms() {
+    const [currentHostel,setCurrentHostel] = useState(null);
+    console.log(currentHostel);
+    const id = useParams();
     const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
     const images = [
         '/img/img1.avif', // katta rasm
@@ -55,8 +59,11 @@ export default function Rooms() {
                 setIsFixed(false);
             }
         });
-    }, [])
-    console.log(state);
+        fetch(`http://booking/api/hotels/get-hotels?id=${id.id}`)
+        .then(res => res.json())
+        .then(result => setCurrentHostel(result.hotel));
+    }, [id])
+    
     return (
         <>
             <header className='active'>
@@ -74,15 +81,15 @@ export default function Rooms() {
                 <div className="container room-container sm">
                     <div className="img-content">
                         <div className="title">
-                            <h2>Grandfather's cosy cabin by riverbank</h2>
+                            <h2>{currentHostel?.name}</h2>
                         </div>
                         <div className="image-gallery">
                             <div className="main-image">
-                                <img src={images[0]} alt="Main" />
+                                <img src={currentHostel?.images[0]?.url} alt="Main" />
                             </div>
                             <div className="side-images">
-                                {images.slice(1).map((img, i) => (
-                                    <img key={i} src={img} alt={`Side ${i}`} />
+                                {currentHostel?.images.slice(1).map((img, i) => (
+                                    <img key={i} src={img?.url} alt={`Side ${i}`} />
                                 ))}
                             </div>
                         </div>
@@ -92,8 +99,10 @@ export default function Rooms() {
                         <div className="content">
                             <div className="content-info">
                                 <div className="title-room">
-                                    <h4>Entire rental unit in Dubai, United Arab Emirates</h4>
-                                    <p>4 guests · 1 bedroom · 2 beds · 1.5 baths</p>
+                                    <h4>{currentHostel?.description}</h4>
+                                    <p>{`
+                                        ${currentHostel?.persons} guests · ${currentHostel?.bedrooms} bedroom · ${currentHostel?.beds} beds · ${currentHostel?.bathrooms} baths
+                                    `}</p>
                                 </div>
                             </div>
                             <div className="content-rate">
@@ -111,7 +120,7 @@ export default function Rooms() {
                                     <div className='guest-reviews'>
                                         <div className="rating">
                                             <div className="rate">
-                                                <span>4.89</span>
+                                                <span>{currentHostel?.rating}</span>
                                                 <div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{ height: '10px', width: '10px', fill: 'currentcolor' }}><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{ height: '10px', width: '10px', fill: 'currentcolor' }}><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>
@@ -120,11 +129,11 @@ export default function Rooms() {
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{ height: '10px', width: '10px', fill: 'currentcolor' }}><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>
                                                 </div>
                                             </div>
-                                            <div className='line'></div>
+                                            {/* <div className='line'></div>
                                             <div className="reviews">
                                                 <span>83</span>
                                                 <p>Reviews</p>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +161,7 @@ export default function Rooms() {
                                 </div>
                                 <div className="order-bar">
                                     <div className="price">
-                                        <span>$120</span> for 2 nights
+                                        <span>${currentHostel?.price}</span> for 2 nights
                                     </div>
                                     <div className="date">
                                         <div className="check-in" ref={pickerRef}>

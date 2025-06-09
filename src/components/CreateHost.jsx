@@ -320,7 +320,7 @@ export default function CreateHost() {
             Back
           </button>
           <button className="next-btn" onClick={nextPage}>
-            {step < 8 ? 'Next' : 'Finish' } 
+            {step < 9 ? 'Next' : 'Finish' } 
           </button >
         </div >
       </footer >

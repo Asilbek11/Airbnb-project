@@ -8,7 +8,7 @@ import Verify from './components/Verify';
 import { UserContext } from './contexts/UserContext';
 import { WishlistContext } from './contexts/WishlistContext';
 import CreateHost from './components/CreateHost';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HostList from './components/HostList';
 import Profile from './components/Profile';
 import Rooms from './components/Rooms';
@@ -4730,20 +4730,22 @@ function App() {
   const [user, setUser] = useState(null);
   const [wishlist, setWishlist] = useState([]);
 
-  if (user) {
-    fetch(`http://booking/api/hotels/get-wishlist?user_id=${user?.id}`)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw res.json();
-        }
-      })
-      .then(result => setWishlist(result?.hotels))
-      .catch(err => {
-        err.then(err => alert(err.error))
-      });
-  }
+  useEffect(() => {
+    if (user) {
+      fetch(`http://booking/api/hotels/get-wishlist?user_id=${user?.id}`)
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.json();
+          }
+        })
+        .then(result => setWishlist(result?.hotels))
+        .catch(err => {
+          err.then(err => alert(err.error))
+        });
+    }
+  },[user]);
 
   return (
     <div className="container-main">
@@ -4758,7 +4760,7 @@ function App() {
             <Route path="/verify" element={<Verify />} />
             <Route path="/hosts" element={<HostList />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/rooms" element={<Rooms />} />
+            <Route path="/rooms/:id" element={<Rooms />} />
             <Route path="/price" element={<CreatePrice />} />
           </Routes>
         </WishlistContext.Provider>
