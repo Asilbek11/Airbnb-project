@@ -1,11 +1,8 @@
 import React from 'react'
-import Form from './Form'
 import Navbar from './Navbar'
+import Form from './Form'
 
-export default function Verify() {
-  const fields = [
-    { name: "verifyCode", type: "number", required: true, placeholder: "Verification code", verify : true }
-  ];
+function Verify() {
   return (
     <>
       <header>
@@ -13,10 +10,11 @@ export default function Verify() {
       </header>
       <section>
         <div className="container form-container">
-          <Form fields={fields} />
-          
+          <h1 style={{marginTop: "100px"}}>Verify your email</h1>
         </div>
       </section>
     </>
   )
 }
+
+export default Verify

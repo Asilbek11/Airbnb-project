@@ -1292,6 +1292,17 @@ section.items-body {
   max-height: 50vh;
   overflow: auto;
 }
+.container-create .description-content .description-wrapper input {
+  transition: none !important;
+  width: 100%;
+  line-height: 1.5;
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid var(--silver);
+  padding: 15px 20px;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
 .container-create .price-content {
   display: block;
   align-items: self-start;

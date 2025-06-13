@@ -5,7 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { DateRange } from 'react-date-range';
 import { enUS } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css';
-
+import 'react-date-range/dist/theme/default.css';
 export default function Rooms() {
     const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
     const images = [

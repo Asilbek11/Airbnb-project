@@ -10,8 +10,7 @@ export default function Home() {
   useEffect(() => {
     fetch("http://booking/api/hotels/get-hotels")
       .then(res => res.json())
-      .then(result => {setData(result.hotels); console.log(result.hotels);
-      })
+      .then(result => {setData(result.hotels)})
       .catch(err => {
         console.log(err);
       });
