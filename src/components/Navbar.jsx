@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Categorys from './Categorys';
 import { UserContext } from '../contexts/UserContext';
+import { WishlistContext } from '../contexts/WishlistContext';
 
 export default function Navbar() {
     const [user,setUser] = useContext(UserContext);
+    const [wishlist, setWishlist] = useContext(WishlistContext);
     let [active, setActive] = useState('');
     const navigate = useNavigate();
     let [isActive, setIsActive] = useState(false)
@@ -48,6 +50,7 @@ export default function Navbar() {
     }
     const logout = ()=>{
         setUser(null);
+        setWishlist(null);
     }
     return (
         <>
@@ -120,7 +123,6 @@ export default function Navbar() {
                                 {user ? <div>
                                     <ul>
                                         <li><a onClick={() => handleClick('/profile')}>Profile</a></li>
-                                        <li><a href="#">Trips</a></li>
                                         <li><a onClick={() => handleClick('/wishlist')}>Wishlist</a></li>
                                     </ul>
                                 </div> : ""}
