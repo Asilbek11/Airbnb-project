@@ -1173,7 +1173,7 @@ section.items-body {
 }
 .container-create .place-content {
   flex-direction: column;
-  padding: 80px 0 110px 0;
+  padding: 100px 0 110px 0;
 }
 .container-create .place-content .title {
   padding: 0 15px;
@@ -1187,6 +1187,7 @@ section.items-body {
   flex-wrap: wrap;
 }
 .container-create .place-content .place-category .item {
+  position: relative;
   cursor: pointer;
   flex: 0 1 calc(33% - 9px);
   padding: 24px 18px 10px 18px;
@@ -1199,7 +1200,7 @@ section.items-body {
   flex-direction: column;
   align-items: start;
 }
-.container-create .place-content .place-category .item:hover, .container-create .place-content .place-category .item.active {
+.container-create .place-content .place-category .item:hover, .container-create .place-content .place-category .item[data-active=active] {
   border: 1px solid transparent;
   box-shadow: 0 0 0 2px #000000;
 }
@@ -1207,12 +1208,13 @@ section.items-body {
   transition: all 0.3;
   transform: scale(0.95);
 }
-.container-create .place-content .place-category .item.active {
+.container-create .place-content .place-category .item[data-active=active] {
   background-color: var(--main-hover);
 }
-.container-create .place-content .place-category .item svg {
-  width: 32px;
-  height: 32px;
+.container-create .place-content .place-category .item img {
+  position: relative;
+  width: 42px;
+  height: 42px;
   margin-bottom: 5px;
 }
 .container-create .user-count-content {
@@ -1340,12 +1342,171 @@ section.items-body {
   padding-left: 8%;
   font-weight: 750;
 }
-.container-create .map-content {
+.container-create .location-content {
+  position: relative;
   display: block;
-  padding: 110px 450px;
+  padding: 100px 410px 140px 450px;
 }
-.container-create .map-content .map {
-  border-radius: 40px;
+.container-create .location-content .title {
+  margin-bottom: 50px;
+}
+.container-create .location-content .title h1 {
+  font-size: 40px;
+}
+.container-create .location-content .title span {
+  position: relative;
+  font-size: 22px;
+  font-weight: 600;
+  word-spacing: -1.5px;
+  color: var(--silver);
+}
+.container-create .location-content .location {
+  position: relative;
+}
+.container-create .location-content .location input {
+  min-width: 80%;
+  display: block;
+  margin-top: 40px;
+  font-size: 24px;
+  padding: 20px 15px 20px 70px;
+  border-radius: 30px;
+  border: none;
+  line-height: 1.2;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+.container-create .location-content .location input::placeholder {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.container-create .location-content .location-wrapper {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  transition: all 0.6s;
+}
+.container-create .location-content .location-wrapper.show {
+  height: auto;
+  visibility: visible;
+  opacity: 1;
+  margin-bottom: 30px;
+}
+.container-create .location-content .location-wrapper input {
+  display: block;
+  width: 100%;
+  padding: 15px 15px;
+  font-size: 18px;
+  border: 1px solid var(--silver);
+  border-bottom: none;
+}
+.container-create .location-content .location-wrapper input::placeholder {
+  font-size: 18px;
+}
+.container-create .location-content .location-wrapper input[data-type=country] {
+  margin-bottom: 15px;
+}
+.container-create .location-content .location-wrapper input:first-child, .container-create .location-content .location-wrapper input:last-child {
+  border-radius: 8px;
+  border-bottom: 1px solid var(--silver);
+}
+.container-create .location-content .location-wrapper input:nth-child(2) {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.container-create .location-content .location-wrapper input:last-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.container-create .location-content .location-map {
+  position: relative;
+  min-width: 650px;
+  min-height: 500px;
+}
+.container-create .location-content .location-map .location-form {
+  position: absolute;
+  width: 100%;
+  height: 30%;
+}
+.container-create .location-content .location-map .location-form .location-bar .location-input {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  z-index: 2;
+  width: 85%;
+  padding: 20px 70px;
+  border-radius: 35px;
+  font-size: 18px;
+  font-weight: 600;
+  transform: translate(-50%, 0) !important;
+  border: 2.5px solid transparent;
+  outline: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: none;
+}
+.container-create .location-content .location-map .location-form .location-bar .location-input:focus {
+  border-radius: 15px;
+  border-color: var(--black);
+  box-shadow: none;
+}
+.container-create .location-content .location-map .location-form .location-bar .location-input::placeholder {
+  font-weight: 650;
+}
+.container-create .location-content .location-map .location-form .location-bar svg {
+  position: absolute;
+  z-index: 3;
+  left: 80px;
+  top: 40%;
+  transform: translate(0, -45%);
+  width: 24px;
+  height: 24px;
+}
+.container-create .location-content .location-map .location-form .option {
+  position: relative;
+  visibility: hidden;
+  opacity: 0;
+  top: 30px;
+  left: 50%;
+  width: 85%;
+  padding: 85px 0 0 0;
+  z-index: 1;
+  background-color: #fff;
+  border-radius: 15px;
+  transform: translate(-50%, 0);
+}
+.container-create .location-content .location-map .location-form .option.show {
+  visibility: visible;
+  opacity: 1;
+}
+.container-create .location-content .location-map .location-form .option .option-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  cursor: pointer;
+}
+.container-create .location-content .location-map .location-form .option .option-label:hover {
+  background-color: var(--main-border);
+}
+.container-create .location-content .location-map .location-form .option .option-label span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background-color: var(--main-hover);
+  border-radius: 10px;
+}
+.container-create .location-content .location-map .location-form .option .option-label span svg {
+  width: 20px;
+  height: 20px;
+}
+.container-create .location-content .location-map #map {
+  position: relative;
+  min-width: 650px;
+  min-height: 500px;
+  border-radius: 20px;
 }
 
 .location-search {

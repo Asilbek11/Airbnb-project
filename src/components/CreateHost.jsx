@@ -11,7 +11,6 @@ import { UserContext } from '../contexts/UserContext';
 import CreateTitle from './create-component/CreateTitle';
 import CreatePrice from './create-component/CreatePrice';
 import CreateMap from './create-component/CreateMap';
-
 export default function CreateHost() {
   const { step } = useParams();
   const [user, setUser] = useContext(UserContext);
@@ -125,83 +124,6 @@ export default function CreateHost() {
       <header style={active ? { margin: 0 } : { border: 'none' }}>
         <Navbar />
       </header>
-      {/* <HostContext.Provider value={[hotel, setHotel]}>
-        <section>
-          <div className="container-create">
-            {
-              <AnimatePresence mode="wait">
-                {parseInt(step) === 1 && (
-                  <motion.div
-                    key={1}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateComponent fields={fields[0]} />
-                  </motion.div>
-                )}
-                {parseInt(step) === 2 && (
-                  <motion.div
-                    key={2}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreatePlace />
-                  </motion.div>
-                )}
-                {parseInt(step) === 3 && (
-                  <motion.div
-                    key={3}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateUserCount />
-                  </motion.div>
-                )}
-                {parseInt(step) === 4 && (
-                  <motion.div
-                    key={4}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateComponent fields={fields[1]} />
-                  </motion.div>
-                )}
-                {parseInt(step) === 5 && (
-                  <motion.div
-                    key={5}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateDescription fields={fields[1]} />
-                  </motion.div>
-                )}
-                {parseInt(step) === 6 && (
-                  <motion.div
-                    key={6}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateComponent fields={fields[2]} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-            }
-          </div>
-        </section>
-      </HostContext.Provider> */}
       <HostContext.Provider value={[hotel, setHotel]}>
         <section>
           <div className="container-create">
@@ -243,23 +165,23 @@ export default function CreateHost() {
                 {parseInt(step) === 4 && (
                   <motion.div
                     key={4}
+                    initial={{ opacity: 0, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateMap/>
+                  </motion.div>
+                )}
+                {parseInt(step) === 5 && (
+                  <motion.div
+                    key={5}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
                     <CreateComponent fields={fields[1]} />
-                  </motion.div>
-                )}
-                {parseInt(step) === 5 && (
-                  <motion.div
-                    key={5}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateTitle />
                   </motion.div>
                 )}
                 {parseInt(step) === 6 && (
@@ -270,7 +192,7 @@ export default function CreateHost() {
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    <CreateDescription />
+                    <CreateTitle />
                   </motion.div>
                 )}
                 {parseInt(step) === 7 && (
@@ -281,7 +203,7 @@ export default function CreateHost() {
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    <CreatePrice />
+                    <CreateDescription />
                   </motion.div>
                 )}
                 {parseInt(step) === 8 && (
@@ -292,7 +214,7 @@ export default function CreateHost() {
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    <CreateMap />
+                    <CreatePrice />
                   </motion.div>
                 )}
                 {parseInt(step) === 9 && (
@@ -320,7 +242,7 @@ export default function CreateHost() {
             Back
           </button>
           <button className="next-btn" onClick={nextPage}>
-            {step < 9 ? 'Next' : 'Finish' } 
+            {step < 10 ? 'Next' : 'Finish' } 
           </button >
         </div >
       </footer >

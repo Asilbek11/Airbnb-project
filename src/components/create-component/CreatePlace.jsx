@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { IoHomeOutline } from "react-icons/io5";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { HostContext } from '../../contexts/HostContext';
@@ -22,6 +21,9 @@ export default function CreatePlace() {
             offset: -150
         });
     }, []);
+    useEffect(() => {
+        AOS.refresh(); // data o‘zgarganda AOS qayta hisoblasin
+    }, [data])
     return (
         <div className='place-content'>
             <div className="title">
@@ -29,15 +31,20 @@ export default function CreatePlace() {
             </div>
             <div className="place-category">
                 {data?.map((item, i) => (
-                    <button
-                        data-aos="fade-up" data-aos-delay={i * 100} 
-                        className={`item aos-animate ${category == item.id ? "active" : ""}`} 
-                        key={i}
-                        onClick={() => {setCategory(item.id); setHotel({...hotel,category_id: item.id})}}
-                    >
-                        <img src={`.${item.image}`} alt="" />
-                        <p>{item.title}</p>
-                    </button>
+                     <button
+                     data-aos="fade-up"
+                     data-aos-delay={i * 100}
+                     data-active={category === item.id ? "active" : ""}
+                     className='item'
+                     key={i}
+                     onClick={() => {
+                         setCategory(item.id);
+                         setHotel({ ...hotel, category_id: item.id });
+                     }}
+                 >
+                     <img src={`.${item.image}`} alt="" />
+                     <p>{item.title}</p>
+                 </button>
                 ))}
             </div>
         </div>

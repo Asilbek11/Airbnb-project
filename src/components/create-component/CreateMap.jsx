@@ -1,54 +1,142 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
+import { TiLocation } from "react-icons/ti";
+import { TbLocation } from "react-icons/tb";
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import AOS from 'aos';
+mapboxgl.accessToken = 'pk.eyJ1IjoibXVzYXlldmZhcmhvZDkwIiwiYSI6ImNtYnZwanI1MzBnMncybnB5bjJzN2F5MXIifQ.6RH8J1oMv2f2IGdRR-uaFw'; // <<-- Bu yerga o'zingizning tokeningizni yozing
 
-const CreateMap = () => {
-  const [location, setLocation] = useState(null);
-  const [error, setError] = useState(null);
-  const query = 'Tashkent';
+export default function CreateMap() {
+  const [location, setLocation] = useState({ lng: 69.240562, lat: 41.311081 }); // Default: Tashkent
+  const [address, setAddress] = useState('');
+  const [countryCity, setCountryCity] = useState('');
+  const [district, setDistrict] = useState('');
+  const [street, setStreet] = useState('');
+  const [showOption, setShowOption] = useState(false);
+  const [showInputs, setShowInputs] = useState(false);
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
-    const fetchLocation = async () => {
-      const apiKey = process.env.REACT_APP_POSITIONSTACK_KEY;
+    AOS.init({
+      duration: 600,
+      once: true,
+      offset: -150
+    });
+  }, []);
 
-      try {
-        const response = await axios.get('http://api.positionstack.com/v1/forward', {
-          params: {
-            access_key: apiKey,
-            query: query
-          }
-        });
-
-        const data = response.data;
-
-        if (data && data.data && data.data.length > 0) {
-          setLocation(data.data[0]);
-        } else {
-          setError('Manzil topilmadi');
-        }
-      } catch (err) {
-        console.error(err);
-        setError('So‘rovda xatolik yuz berdi');
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setShowOption(false);
       }
     };
 
-    fetchLocation();
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
+  useEffect(() => {
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [location.lng, location.lat],
+      zoom: 14,
+    });
+
+    const svgMarkup = `
+        <svg id="l_d_550" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 102 102" width="152" height="152" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;"><defs id="l_d_551"><clipPath id="__lottie_element_233"><rect id="l_d_554" width="102" height="102" x="0" y="0"></rect></clipPath><clipPath id="__lottie_element_235"><path id="l_d_558" d="M0,0 L102,0 L102,102 L0,102z"></path></clipPath><linearGradient id="__lottie_element_244" spreadMethod="pad" gradientUnits="userSpaceOnUse" x1="-5.202000141143799" y1="6.130000114440918" x2="6.8379998207092285" y2="-5.909999847412109"><stop id="l_d_574" offset="0%" stop-color="rgb(229,29,89)"></stop><stop id="l_d_575" offset="50%" stop-color="rgb(226,24,94)"></stop><stop id="l_d_576" offset="100%" stop-color="rgb(223,20,98)"></stop></linearGradient><linearGradient id="__lottie_element_248" spreadMethod="pad" gradientUnits="userSpaceOnUse" x1="-23.121999740600586" y1="-12.256999969482422" x2="22.243999481201172" y2="-12.256999969482422"><stop id="l_d_584" offset="0%" stop-color="rgb(230,30,77)"></stop><stop id="l_d_585" offset="25%" stop-color="rgb(228,29,86)"></stop><stop id="l_d_586" offset="51%" stop-color="rgb(227,28,95)"></stop><stop id="l_d_587" offset="75%" stop-color="rgb(221,16,98)"></stop><stop id="l_d_588" offset="100%" stop-color="rgb(215,4,102)"></stop></linearGradient><clipPath id="__lottie_element_250"><path id="l_d_593" d="M0,0 L102,0 L102,102 L0,102z"></path></clipPath><filter id="__lottie_element_252" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur id="l_d_596" result="filter_result_0" stdDeviation="0.6 0.6" edgeMode="wrap"></feGaussianBlur></filter><linearGradient id="__lottie_element_259" spreadMethod="pad" gradientUnits="userSpaceOnUse" x1="-5.202000141143799" y1="6.130000114440918" x2="6.8379998207092285" y2="-5.909999847412109"><stop id="l_d_610" offset="0%" stop-color="rgb(229,29,89)"></stop><stop id="l_d_611" offset="50%" stop-color="rgb(226,24,94)"></stop><stop id="l_d_612" offset="100%" stop-color="rgb(223,20,98)"></stop></linearGradient><linearGradient id="__lottie_element_263" spreadMethod="pad" gradientUnits="userSpaceOnUse" x1="-23.121999740600586" y1="-12.256999969482422" x2="22.243999481201172" y2="-12.256999969482422"><stop id="l_d_620" offset="0%" stop-color="rgb(230,30,77)"></stop><stop id="l_d_621" offset="25%" stop-color="rgb(228,29,86)"></stop><stop id="l_d_622" offset="51%" stop-color="rgb(227,28,95)"></stop><stop id="l_d_623" offset="75%" stop-color="rgb(221,16,98)"></stop><stop id="l_d_624" offset="100%" stop-color="rgb(215,4,102)"></stop></linearGradient></defs><g id="l_d_552" clip-path="url(#__lottie_element_233)"><g id="l_d_626" transform="matrix(0.5166666507720947,0,0,0.5166666507720947,51,51)" opacity="1" style="display: block;"><g id="l_d_630" opacity="1" transform="matrix(1,0,0,1,0,0)"><path id="l_d_631" fill="rgb(217,37,69)" fill-opacity="0.16" d=" M51,0 C51,28.16699981689453 28.16699981689453,51 0,51 C-28.16699981689453,51 -51,28.16699981689453 -51,0 C-51,-28.16699981689453 -28.16699981689453,-51 0,-51 C28.16699981689453,-51 51,-28.16699981689453 51,0z"></path></g></g><g id="l_d_590" clip-path="url(#__lottie_element_250)" filter="url(#__lottie_element_252)" transform="matrix(1,0,0,1,0,1.75)" opacity="0.11" style="display: block;"><g id="l_d_613" transform="matrix(1.1466666460037231,0,0,1.1466666460037231,51,51.07699966430664)" opacity="1" style="display: block;"><g id="l_d_617" opacity="1" transform="matrix(1,0,0,1,0,0)"><path id="l_d_618" fill="url(#__lottie_element_263)" fill-opacity="1" d=" M24,0 C24,13.29699993133545 13.255000114440918,24.07699966430664 0,24.07699966430664 C-13.255000114440918,24.07699966430664 -24,13.29699993133545 -24,0 C-24,-13.29699993133545 -13.255000114440918,-24.07699966430664 0,-24.07699966430664 C13.255000114440918,-24.07699966430664 24,-13.29699993133545 24,0z"></path><path id="l_d_625" stroke-linecap="round" stroke-linejoin="round" fill-opacity="0" stroke="rgb(0,0,0)" stroke-opacity="0.04" stroke-width="1" d=" M24,0 C24,13.29699993133545 13.255000114440918,24.07699966430664 0,24.07699966430664 C-13.255000114440918,24.07699966430664 -24,13.29699993133545 -24,0 C-24,-13.29699993133545 -13.255000114440918,-24.07699966430664 0,-24.07699966430664 C13.255000114440918,-24.07699966430664 24,-13.29699993133545 24,0z"></path></g></g><g id="l_d_603" transform="matrix(1,0,0,1,50.986000061035156,75.55733489990234)" opacity="1" style="display: block;"><g id="l_d_607" opacity="1" transform="matrix(0.7082412838935852,0.7059704661369324,-0.7059704661369324,0.7082412838935852,0,0)"><path id="l_d_608" fill="url(#__lottie_element_259)" fill-opacity="1" d=" M6.010000228881836,-4.010000228881836 C6.010000228881836,-5.113800048828125 5.113800048828125,-6.010000228881836 4.010000228881836,-6.010000228881836 C4.010000228881836,-6.010000228881836 -4.010000228881836,-6.010000228881836 -4.010000228881836,-6.010000228881836 C-5.113800048828125,-6.010000228881836 -6.010000228881836,-5.113800048828125 -6.010000228881836,-4.010000228881836 C-6.010000228881836,-4.010000228881836 -6.010000228881836,4.010000228881836 -6.010000228881836,4.010000228881836 C-6.010000228881836,5.113800048828125 -5.113800048828125,6.010000228881836 -4.010000228881836,6.010000228881836 C-4.010000228881836,6.010000228881836 4.010000228881836,6.010000228881836 4.010000228881836,6.010000228881836 C5.113800048828125,6.010000228881836 6.010000228881836,5.113800048828125 6.010000228881836,4.010000228881836 C6.010000228881836,4.010000228881836 6.010000228881836,-4.010000228881836 6.010000228881836,-4.010000228881836z"></path></g></g><g id="l_d_597" transform="matrix(1,0,0,1,51,50.07400131225586)" opacity="1" style="display: block;"><g id="l_d_601" opacity="1" transform="matrix(1,0,0,1,0,0)"><path id="l_d_602" fill="rgb(255,255,255)" fill-opacity="1" d=" M0.9750000238418579,-9.630999565124512 C0.9750000238418579,-9.630999565124512 0.843999981880188,-9.744999885559082 0.843999981880188,-9.744999885559082 C0.843999981880188,-9.744999885559082 0.8429999947547913,-9.744999885559082 0.8429999947547913,-9.744999885559082 C0.5759999752044678,-9.949999809265137 0.2460000067949295,-10.050000190734863 -0.08699999749660492,-10.029000282287598 C-0.41999998688697815,-10.008000373840332 -0.7350000143051147,-9.866999626159668 -0.9750000238418579,-9.630999565124512 C-0.9750000238418579,-9.630999565124512 -11,0.2409999966621399 -11,0.2409999966621399 C-11,0.2409999966621399 -10.024999618530273,1.2660000324249268 -10.024999618530273,1.2660000324249268 C-10.024999618530273,1.2660000324249268 -8.409000396728516,-0.32499998807907104 -8.409000396728516,-0.32499998807907104 C-8.409000396728516,-0.32499998807907104 -8.409000396728516,9.317999839782715 -8.409000396728516,9.317999839782715 C-8.409000396728516,9.317999839782715 -8.397000312805176,9.446999549865723 -8.397000312805176,9.446999549865723 C-8.366999626159668,9.611000061035156 -8.282999992370605,9.760000228881836 -8.156999588012695,9.866999626159668 C-8.031000137329102,9.973999977111816 -7.872000217437744,10.031999588012695 -7.708000183105469,10.031999588012695 C-7.708000183105469,10.031999588012695 -2.802000045776367,10.031999588012695 -2.802000045776367,10.031999588012695 C-2.802000045776367,10.031999588012695 -2.802000045776367,2.180000066757202 -2.802000045776367,2.180000066757202 C-2.802000045776367,2.180000066757202 -2.7909998893737793,2.052000045776367 -2.7909998893737793,2.052000045776367 C-2.760999917984009,1.8880000114440918 -2.6760001182556152,1.7389999628067017 -2.549999952316284,1.6319999694824219 C-2.4240000247955322,1.524999976158142 -2.2660000324249268,1.465999960899353 -2.1019999980926514,1.465999960899353 C-2.1019999980926514,1.465999960899353 2.1029999256134033,1.465999960899353 2.1029999256134033,1.465999960899353 C2.1029999256134033,1.465999960899353 2.2290000915527344,1.4780000448226929 2.2290000915527344,1.4780000448226929 C2.390000104904175,1.5080000162124634 2.5360000133514404,1.5950000286102295 2.6410000324249268,1.7230000495910645 C2.746000051498413,1.8509999513626099 2.803999900817871,2.013000011444092 2.803999900817871,2.180000066757202 C2.803999900817871,2.180000066757202 2.803999900817871,10.031999588012695 2.803999900817871,10.031999588012695 C2.803999900817871,10.031999588012695 7.709000110626221,10.031999588012695 7.709000110626221,10.031999588012695 C7.709000110626221,10.031999588012695 7.835000038146973,10.020999908447266 7.835000038146973,10.020999908447266 C7.995999813079834,9.991000175476074 8.142999649047852,9.904000282287598 8.248000144958496,9.776000022888184 C8.352999687194824,9.64799976348877 8.40999984741211,9.484999656677246 8.40999984741211,9.317999839782715 C8.40999984741211,9.317999839782715 8.40999984741211,-0.32499998807907104 8.40999984741211,-0.32499998807907104 C8.40999984741211,-0.32499998807907104 10.024999618530273,1.2649999856948853 10.024999618530273,1.2649999856948853 C10.024999618530273,1.2649999856948853 11,0.23999999463558197 11,0.23999999463558197 C11,0.23999999463558197 0.9750000238418579,-9.630999565124512 0.9750000238418579,-9.630999565124512z"></path></g></g></g><g id="l_d_555" clip-path="url(#__lottie_element_235)" transform="matrix(1,0,0,1,0,0)" opacity="1" style="display: block;"><g id="l_d_577" transform="matrix(1.1466666460037231,0,0,1.1466666460037231,51,51.07699966430664)" opacity="1" style="display: block;"><g id="l_d_581" opacity="1" transform="matrix(1,0,0,1,0,0)"><path id="l_d_582" fill="url(#__lottie_element_248)" fill-opacity="1" d=" M24,0 C24,13.29699993133545 13.255000114440918,24.07699966430664 0,24.07699966430664 C-13.255000114440918,24.07699966430664 -24,13.29699993133545 -24,0 C-24,-13.29699993133545 -13.255000114440918,-24.07699966430664 0,-24.07699966430664 C13.255000114440918,-24.07699966430664 24,-13.29699993133545 24,0z"></path><path id="l_d_589" stroke-linecap="round" stroke-linejoin="round" fill-opacity="0" stroke="rgb(0,0,0)" stroke-opacity="0.04" stroke-width="1" d=" M24,0 C24,13.29699993133545 13.255000114440918,24.07699966430664 0,24.07699966430664 C-13.255000114440918,24.07699966430664 -24,13.29699993133545 -24,0 C-24,-13.29699993133545 -13.255000114440918,-24.07699966430664 0,-24.07699966430664 C13.255000114440918,-24.07699966430664 24,-13.29699993133545 24,0z"></path></g></g><g id="l_d_567" transform="matrix(1,0,0,1,50.986000061035156,75.55733489990234)" opacity="1" style="display: block;"><g id="l_d_571" opacity="1" transform="matrix(0.7082412838935852,0.7059704661369324,-0.7059704661369324,0.7082412838935852,0,0)"><path id="l_d_572" fill="url(#__lottie_element_244)" fill-opacity="1" d=" M6.010000228881836,-4.010000228881836 C6.010000228881836,-5.113800048828125 5.113800048828125,-6.010000228881836 4.010000228881836,-6.010000228881836 C4.010000228881836,-6.010000228881836 -4.010000228881836,-6.010000228881836 -4.010000228881836,-6.010000228881836 C-5.113800048828125,-6.010000228881836 -6.010000228881836,-5.113800048828125 -6.010000228881836,-4.010000228881836 C-6.010000228881836,-4.010000228881836 -6.010000228881836,4.010000228881836 -6.010000228881836,4.010000228881836 C-6.010000228881836,5.113800048828125 -5.113800048828125,6.010000228881836 -4.010000228881836,6.010000228881836 C-4.010000228881836,6.010000228881836 4.010000228881836,6.010000228881836 4.010000228881836,6.010000228881836 C5.113800048828125,6.010000228881836 6.010000228881836,5.113800048828125 6.010000228881836,4.010000228881836 C6.010000228881836,4.010000228881836 6.010000228881836,-4.010000228881836 6.010000228881836,-4.010000228881836z"></path></g></g><g id="l_d_561" transform="matrix(1,0,0,1,51,50.07400131225586)" opacity="1" style="display: block;"><g id="l_d_565" opacity="1" transform="matrix(1,0,0,1,0,0)"><path id="l_d_566" fill="rgb(255,255,255)" fill-opacity="1" d=" M0.9750000238418579,-9.630999565124512 C0.9750000238418579,-9.630999565124512 0.843999981880188,-9.744999885559082 0.843999981880188,-9.744999885559082 C0.843999981880188,-9.744999885559082 0.8429999947547913,-9.744999885559082 0.8429999947547913,-9.744999885559082 C0.5759999752044678,-9.949999809265137 0.2460000067949295,-10.050000190734863 -0.08699999749660492,-10.029000282287598 C-0.41999998688697815,-10.008000373840332 -0.7350000143051147,-9.866999626159668 -0.9750000238418579,-9.630999565124512 C-0.9750000238418579,-9.630999565124512 -11,0.2409999966621399 -11,0.2409999966621399 C-11,0.2409999966621399 -10.024999618530273,1.2660000324249268 -10.024999618530273,1.2660000324249268 C-10.024999618530273,1.2660000324249268 -8.409000396728516,-0.32499998807907104 -8.409000396728516,-0.32499998807907104 C-8.409000396728516,-0.32499998807907104 -8.409000396728516,9.317999839782715 -8.409000396728516,9.317999839782715 C-8.409000396728516,9.317999839782715 -8.397000312805176,9.446999549865723 -8.397000312805176,9.446999549865723 C-8.366999626159668,9.611000061035156 -8.282999992370605,9.760000228881836 -8.156999588012695,9.866999626159668 C-8.031000137329102,9.973999977111816 -7.872000217437744,10.031999588012695 -7.708000183105469,10.031999588012695 C-7.708000183105469,10.031999588012695 -2.802000045776367,10.031999588012695 -2.802000045776367,10.031999588012695 C-2.802000045776367,10.031999588012695 -2.802000045776367,2.180000066757202 -2.802000045776367,2.180000066757202 C-2.802000045776367,2.180000066757202 -2.7909998893737793,2.052000045776367 -2.7909998893737793,2.052000045776367 C-2.760999917984009,1.8880000114440918 -2.6760001182556152,1.7389999628067017 -2.549999952316284,1.6319999694824219 C-2.4240000247955322,1.524999976158142 -2.2660000324249268,1.465999960899353 -2.1019999980926514,1.465999960899353 C-2.1019999980926514,1.465999960899353 2.1029999256134033,1.465999960899353 2.1029999256134033,1.465999960899353 C2.1029999256134033,1.465999960899353 2.2290000915527344,1.4780000448226929 2.2290000915527344,1.4780000448226929 C2.390000104904175,1.5080000162124634 2.5360000133514404,1.5950000286102295 2.6410000324249268,1.7230000495910645 C2.746000051498413,1.8509999513626099 2.803999900817871,2.013000011444092 2.803999900817871,2.180000066757202 C2.803999900817871,2.180000066757202 2.803999900817871,10.031999588012695 2.803999900817871,10.031999588012695 C2.803999900817871,10.031999588012695 7.709000110626221,10.031999588012695 7.709000110626221,10.031999588012695 C7.709000110626221,10.031999588012695 7.835000038146973,10.020999908447266 7.835000038146973,10.020999908447266 C7.995999813079834,9.991000175476074 8.142999649047852,9.904000282287598 8.248000144958496,9.776000022888184 C8.352999687194824,9.64799976348877 8.40999984741211,9.484999656677246 8.40999984741211,9.317999839782715 C8.40999984741211,9.317999839782715 8.40999984741211,-0.32499998807907104 8.40999984741211,-0.32499998807907104 C8.40999984741211,-0.32499998807907104 10.024999618530273,1.2649999856948853 10.024999618530273,1.2649999856948853 C10.024999618530273,1.2649999856948853 11,0.23999999463558197 11,0.23999999463558197 C11,0.23999999463558197 0.9750000238418579,-9.630999565124512 0.9750000238418579,-9.630999565124512z"></path></g></g></g></g></svg>
+    `;
+
+    function createSvgMarker() {
+      const el = document.createElement('div');
+      el.className = 'marker-svg';
+      el.innerHTML = svgMarkup;
+      el.style.width = '100px';
+      el.style.height = '100px';
+      return el;
+    }
+
+    // Eski marker o‘rniga mana buni yozing:
+    new mapboxgl.Marker({ element: createSvgMarker() })
+      .setLngLat([location.lng, location.lat])
+      .addTo(map);
+
+    return () => map.remove();
+  }, [location]);
+
+  const handleUseLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ lng: longitude, lat: latitude });
+          try {
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+            );
+            const data = await res.json();
+            const { road, suburb, neighbourhood, city_district, city, town, country } = data.address || {};
+            setAddress(data.display_name || 'Address not found');
+            const cityOrTown = city || town || '';
+            setCountryCity([country, cityOrTown].filter(Boolean).join(', '));
+            const districtVal = suburb || neighbourhood || city_district || '';
+            setDistrict(districtVal);
+            setStreet(road || '');
+            setShowInputs(true);
+          } catch (e) {
+            console.error('Reverse geocoding failed:', e);
+          }
+        },
+        (error) => {
+          alert('Geolocation permission denied.');
+        }
+      );
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  };
+
   return (
-    <div>
-      <h2>Manzil Ma'lumotlari</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {location ? (
-        <div>
-          <p><strong>Manzil:</strong> {location.label}</p>
-          <p><strong>Kenglik:</strong> {location.latitude}</p>
-          <p><strong>Uzunlik:</strong> {location.longitude}</p>
+    <div className='location-content'>
+      <div className="title">
+        <h1 data-aos="fade-up" data-aos-delay={600}>Where’s your place located?</h1>
+        <span data-aos="fade-up" data-aos-delay={700}>Your address is only shared with guests after they’ve made a reservation.</span>
+      </div>
+      <div className={`location-wrapper ${showInputs ? 'show' : ''}`} >
+          {/* VALUEdagi ADDRESSLAR STATE!!! */}
+        <input data-type='country' type="text" value={countryCity} placeholder="Country, City" />
+
+        <input type="text" value={address ? address : ''} placeholder="Full address" />
+
+        <input type="text" value={district} placeholder="District" />
+
+        <input type="text" value={street} placeholder="Street (optional)" />
+      </div>
+      <div className="location-map">
+        <div className='location-form'>
+          <div className="location-bar">
+            <TiLocation />
+            <input
+              type="text"
+              className="location-input"
+              placeholder="Enter your address"
+              onFocus={() => setShowOption(true)}
+              onClick={() => setShowOption(true)}
+              ref={wrapperRef}
+            />
+          </div>
+          <div className={`option ${showOption ? 'show' : ''}`} onClick={handleUseLocation}>
+            <div className="option-label">
+              <span><TbLocation /></span>
+              <div className='current-location' >Use my current location</div>
+            </div>
+          </div>
         </div>
-      ) : (
-        !error && <p>Yuklanmoqda...</p>
-      )}
+        <div id="map"></div>
+      </div>
+
     </div>
   );
-};
-
-export default CreateMap;
+}

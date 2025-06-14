@@ -17,10 +17,11 @@ export default function CreateUserCount() {
                     <span>Guests</span>
                 </div>
                 <div className="count-bar">
-                    <button onClick={() => {
+                    <button 
+                    onClick={() => {
                         setCount({...count, guest:count.guest-1});
                         setHotel({...hotel,persons: count.guest-1});
-                    }} disabled={count.guest < 1}><FaMinus /></button>
+                    }} disabled={count.guest <= 1}><FaMinus /></button>
                     <span>{count.guest}</span>
                     <button onClick={() => {
                         setCount({...count, guest:count.guest+1});
@@ -68,7 +69,7 @@ export default function CreateUserCount() {
                     <button onClick={() => {
                         setCount({...count, bathrooms:count.bathrooms-1});
                         setHotel({...hotel,bathrooms: count.bathrooms-1});
-                    }} disabled={count.bathrooms < 1}><FaMinus /></button>
+                    }} disabled={count.bathrooms <= 1}><FaMinus /></button>
                     <span>{count.bathrooms}</span>
                     <button onClick={() => {
                         setCount({...count, bathrooms: count.bathrooms+1});
