@@ -11,6 +11,7 @@ import { UserContext } from '../contexts/UserContext';
 import CreateTitle from './create-component/CreateTitle';
 import CreatePrice from './create-component/CreatePrice';
 import CreateMap from './create-component/CreateMap';
+import CreateImage from './create-component/CreateImage';
 export default function CreateHost() {
   const { step } = useParams();
   const [user, setUser] = useContext(UserContext);
@@ -176,23 +177,23 @@ export default function CreateHost() {
                 {parseInt(step) === 5 && (
                   <motion.div
                     key={5}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreateImage />
+                  </motion.div>
+                )}
+                {parseInt(step) === 6 && (
+                  <motion.div
+                    key={6}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
                     <CreateComponent fields={fields[1]} />
-                  </motion.div>
-                )}
-                {parseInt(step) === 6 && (
-                  <motion.div
-                    key={6}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateTitle />
                   </motion.div>
                 )}
                 {parseInt(step) === 7 && (
@@ -203,7 +204,7 @@ export default function CreateHost() {
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    <CreateDescription />
+                    <CreateTitle />
                   </motion.div>
                 )}
                 {parseInt(step) === 8 && (
@@ -214,12 +215,23 @@ export default function CreateHost() {
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    <CreatePrice />
+                    <CreateDescription />
                   </motion.div>
                 )}
                 {parseInt(step) === 9 && (
                   <motion.div
                     key={9}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <CreatePrice />
+                  </motion.div>
+                )}
+                {parseInt(step) === 10 && (
+                  <motion.div
+                    key={10}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

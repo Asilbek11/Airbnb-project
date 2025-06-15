@@ -1,5 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
 export default function CreateTitle() {
+  useEffect(() => {
+    AOS.init({
+      duration: 600,
+      once: true,
+      offset: -150
+    });
+  }, []);
   return (
     <div className="description-content">
         <div className="title" data-aos="fade-up" data-aos-delay='500'>

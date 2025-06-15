@@ -53,7 +53,7 @@ export default function CreateUserCount() {
                     <button onClick={() => {
                         setCount({...count, beds:count.beds-1});
                         setHotel({...hotel,beds: count.beds-1});
-                    }} disabled={count.beds < 1}><FaMinus /></button>
+                    }} disabled={count.beds <= 1}><FaMinus /></button>
                     <span>{count.beds}</span>
                     <button onClick={() => {
                         setCount({...count, beds:count.beds+1});

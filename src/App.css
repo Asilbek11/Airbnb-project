@@ -145,7 +145,7 @@ section.items-body {
 .container.lg {
   position: relative;
   z-index: 50 !important;
-  padding: 28px 50px 10px 50px !important;
+  padding: 10px 50px 10px 50px !important;
 }
 .container .title {
   font-size: 22px;
@@ -1507,6 +1507,170 @@ section.items-body {
   min-width: 650px;
   min-height: 500px;
   border-radius: 20px;
+}
+.container-create .img-content {
+  display: block;
+  margin: 0 auto;
+  padding: 100px 400px 100px 410px;
+}
+.container-create .img-content .heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.container-create .img-content .heading .title h2 {
+  font-weight: 700;
+}
+.container-create .img-content .heading .title span {
+  line-height: 1;
+  color: var(--silver);
+}
+.container-create .img-content .heading .add-image {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+}
+.container-create .img-content .heading .add-image svg {
+  font-size: 32px;
+  border: 2px dashed #ccc;
+  padding: 10px;
+  border-radius: 12px;
+  color: #222;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+}
+.container-create .img-content .heading .add-image svg:hover {
+  border-color: #ff385c;
+  background-color: #fff0f3;
+  color: #ff385c;
+}
+.container-create .img-content .intro-wrapper {
+  position: relative;
+  min-width: 100%;
+  padding: 50px 200px 30px 200px;
+  background-color: var(--main-hover);
+  border-radius: 12px;
+  border: 1px dashed var(--silver);
+  text-align: center;
+}
+.container-create .img-content .intro-wrapper.hidden {
+  display: none;
+}
+.container-create .img-content .intro-wrapper img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 50px 50px 0 50px;
+  object-fit: cover;
+  object-position: center;
+}
+.container-create .img-content .intro-wrapper .add-intro {
+  padding: 8px 15px;
+  font-size: 16px;
+  font-weight: 650;
+  border-radius: 6px;
+  border: 1px solid var(--black);
+  background-color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+.container-create .img-content .intro-wrapper .add-intro:hover {
+  background-color: var(--main-hover);
+}
+.container-create .img-content .preview-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  display: none;
+}
+.container-create .img-content .preview-grid.visible {
+  display: flex;
+  height: auto;
+  visibility: visible;
+  opacity: 1;
+}
+.container-create .img-content .preview-grid .img-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 calc(50% - 6px);
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background-color: var(--main-hover);
+  transition: border-color none;
+}
+.container-create .img-content .preview-grid .img-box:has(img):hover {
+  border-color: transparent;
+  cursor: default;
+}
+.container-create .img-content .preview-grid .img-box:hover {
+  cursor: pointer;
+  border-color: var(--silver);
+}
+.container-create .img-content .preview-grid .img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.container-create .img-content .preview-grid .img-box img:hover {
+  transform: scale(1.02);
+}
+.container-create .img-content .preview-grid .img-box:first-child {
+  flex: 0 0 100%;
+  aspect-ratio: 3/2;
+}
+.container-create .img-content .preview-grid .img-box .delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.5411764706);
+  text-align: center;
+  z-index: 1;
+  cursor: pointer;
+}
+.container-create .img-content .preview-grid .img-box .delete-btn:hover {
+  transform: scale(1.05);
+  background-color: #fff;
+}
+.container-create .img-content .preview-grid .img-box .delete-btn svg {
+  width: 15px;
+  height: 15px;
+}
+.container-create .img-content .preview-grid .placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.container-create .img-content .preview-grid .placeholder svg {
+  fill: var(--silver) !important;
+  width: 40px;
+  height: 40px;
+}
+.container-create .img-content .preview-grid .placeholder span {
+  color: var(--silver);
+  font-weight: 650;
 }
 
 .location-search {
