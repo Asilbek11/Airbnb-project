@@ -12,7 +12,10 @@ import CreateTitle from './create-component/CreateTitle';
 import CreatePrice from './create-component/CreatePrice';
 import CreateMap from './create-component/CreateMap';
 import CreateImage from './create-component/CreateImage';
+import { BeatLoader } from 'react-spinners';
+
 export default function CreateHost() {
+
   const { step } = useParams();
   const [user, setUser] = useContext(UserContext);
   const [hotel, setHotel] = useState({
@@ -31,6 +34,9 @@ export default function CreateHost() {
     images: ["1", "2"]
   });
   const navigate = useNavigate();
+  const [isNextLoading, setIsNextLoading] = useState(false);
+  const [isPrevLoading, setIsPrevLoading] = useState(false);
+  const timeout = '1500'
   let [active, setActive] = useState(false)
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -42,10 +48,13 @@ export default function CreateHost() {
     });
   }, [])
   const nextPage = () => {
-    if (step < 8) {
+    if (step < 10) {
+      setIsNextLoading(true);
       navigate(`/create-host/${parseFloat(step) + 1}`);
+      setTimeout(() => {
+        setIsNextLoading(false);
+      }, timeout);
     } else {
-      console.log(hotel);
       navigate('/');
       fetch("http://booking/api/hotels/create-hotels", {
         method: "POST",
@@ -68,7 +77,11 @@ export default function CreateHost() {
     }
   }
   const prevPage = () => {
+    setIsPrevLoading(true)
     navigate(`/create-host/${parseFloat(step) - 1}`);
+    setTimeout(() => {
+      setIsPrevLoading(false);
+    }, timeout);
   }
 
   const fields = [
@@ -119,7 +132,8 @@ export default function CreateHost() {
       videoUrl: "../vid2.mp4"
     },
   ];
-
+  const TOTAL_STEPS = 10;
+  const progress = ((parseInt(step) - 1) / (TOTAL_STEPS - 1)) * 100;
   return (
     <>
       <header style={active ? { margin: 0 } : { border: 'none' }}>
@@ -171,7 +185,7 @@ export default function CreateHost() {
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    <CreateMap/>
+                    <CreateMap />
                   </motion.div>
                 )}
                 {parseInt(step) === 5 && (
@@ -247,17 +261,39 @@ export default function CreateHost() {
       </HostContext.Provider>
       <footer className='footer-fixed'>
         <div className="progress-bar">
-          <div className="bar"></div>
+          <div
+            className="bar"
+            style={{ width: `${progress}%` }}
+          ></div>
         </div>
         <div className="navigator">
-          <button className={parseInt(step) === 1 ? 'btn disabled' : 'prev-btn'} disabled={parseInt(step) === 1} onClick={prevPage}>
-            Back
+          <button
+            className={`prev-btn ${isPrevLoading ? 'loading' : ''}`}
+            disabled={isPrevLoading || step === 1}
+            onClick={prevPage}
+          >
+            {isPrevLoading ? (
+              <BeatLoader size={7} color="#fff" />
+            ) : (
+              'Back'
+            )}
           </button>
-          <button className="next-btn" onClick={nextPage}>
-            {step < 10 ? 'Next' : 'Finish' } 
-          </button >
-        </div >
-      </footer >
+
+          <button
+            className={`next-btn ${isNextLoading ? 'loading' : ''}`}
+            disabled={isNextLoading}
+            onClick={nextPage}
+          >
+            {isNextLoading ? (
+             <BeatLoader size={7} color="#fff" />
+            ) : (
+              step < 10 ? 'Next' : 'Finish'
+            )}
+          </button>
+
+        </div>
+      </footer>
+
     </>
 
 

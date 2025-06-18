@@ -98,6 +98,10 @@ header nav .status-bar .account-bar .account-menu {
   border-radius: 13px;
   z-index: 3;
 }
+header nav .status-bar .account-bar .account-menu.active {
+  visibility: visible;
+  opacity: 1;
+}
 header nav .status-bar .account-bar .account-menu div {
   padding: 8px 0;
   border-bottom: 1px solid var(--main-border);
@@ -116,10 +120,6 @@ header nav .status-bar .account-bar .account-menu li a {
 }
 header nav .status-bar .account-bar .account-menu li a:hover {
   background-color: var(--main-hover);
-}
-header nav .status-bar .account-bar .account-menu.active {
-  visibility: visible;
-  opacity: 1;
 }
 
 section.wishlist-body {
@@ -212,82 +212,6 @@ section.items-body {
   grid-template-columns: repeat(4, 25%);
   justify-content: space-between;
   gap: 30px 5px;
-}
-.container.card-container .item-wrp {
-  padding: 5px;
-}
-.container.card-container .item {
-  cursor: pointer;
-  color: black;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  font-size: 16px;
-}
-.container.card-container .item .item-body {
-  padding: 10px 0;
-}
-.container.card-container .item .item-dad {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-}
-.container.card-container .item .item-dad .swiper-nav {
-  visibility: hidden;
-  opacity: 0;
-  display: flex;
-  z-index: 3;
-  position: absolute;
-  width: 100%;
-  padding: 0 10px;
-  top: 50%;
-  left: 0;
-  justify-content: space-between;
-  transform: translateY(-50%);
-}
-.container.card-container .item:hover .swiper-nav {
-  visibility: visible;
-  opacity: 1;
-}
-
-.container.card-container .item .item-dad .swiper-nav .swiper-btn {
-  cursor: pointer;
-  border: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0.85;
-  transition: all 0.3s;
-}
-.container.card-container .item .item-dad .swiper-nav .swiper-btn:hover {
-  opacity: 1;
-  transform: scale(1.05);
-}
-.container.card-container .item .item-img {
-  position: relative;
-  overflow: hidden;
-  height: 300px;
-}
-.container.card-container .item .item-img img {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-.container.card-container .item .like-btn {
-  cursor: pointer;
-  z-index: 3;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  stroke: #fff;
-  transition: all 0.15s;
-}
-.container.card-container .item .like-btn:hover {
-  transform: scale(1.1);
 }
 .container.wishlist .title {
   font-size: 32px;
@@ -851,6 +775,84 @@ section.items-body {
 }
 .rooms .link-bar a:hover {
   border-color: #000000;
+}
+
+.item-wrp {
+  padding: 5px;
+}
+
+.item {
+  cursor: pointer;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-size: 16px;
+}
+.item .item-body {
+  padding: 10px 0;
+}
+.item .item-dad {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.item .item-dad .swiper-nav {
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  z-index: 3;
+  position: absolute;
+  width: 100%;
+  padding: 0 10px;
+  top: 50%;
+  left: 0;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+.item:hover .swiper-nav {
+  visibility: visible;
+  opacity: 1;
+}
+
+.item .item-dad .swiper-nav .swiper-btn {
+  cursor: pointer;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.85;
+  transition: all 0.3s;
+}
+.item .item-dad .swiper-nav .swiper-btn:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+.item .item-img {
+  position: relative;
+  overflow: hidden;
+  height: 300px;
+}
+.item .item-img img {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.item .like-btn {
+  cursor: pointer;
+  z-index: 3;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  stroke: #fff;
+  transition: all 0.15s;
+}
+.item .like-btn:hover {
+  transform: scale(1.1);
 }
 
 .step-form {
@@ -1720,10 +1722,14 @@ section.items-body {
 }
 
 .profile-section {
+  position: relative;
   display: flex;
+  justify-content: space-between;
 }
 .profile-section .profile {
-  padding: 120px 180px;
+  position: relative;
+  padding: 120px 50px 50px 70px;
+  flex: 1 1 30%;
 }
 .profile-section .profile .profile-about {
   display: flex;
@@ -1779,6 +1785,12 @@ section.items-body {
   border: 1px solid var(--main-border);
   border-radius: 25px;
 }
+.profile-section .profile .profile-verify.fixed {
+  position: fixed;
+  top: 110px;
+  z-index: 10;
+  padding: 0 45px 0 20px;
+}
 .profile-section .profile .profile-verify .profile-info {
   padding: 30px 5px;
   border-bottom: 1px solid var(--main-border);
@@ -1819,6 +1831,42 @@ section.items-body {
   padding: 10px 25px;
   border-radius: 10px;
 }
+.profile-section .profile-hosts {
+  position: relative;
+  width: 70%;
+  justify-self: end;
+  margin-left: auto;
+  padding: 120px 0px;
+  box-sizing: border-box;
+}
+.profile-section .profile-hosts .title {
+  padding-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.profile-section .profile-hosts .card-section {
+  padding-right: 30px;
+}
+.profile-section .profile-hosts .card-section .card-trips {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 30px 5px;
+}
+.profile-section .profile-hosts .card-section .card-trips .item-wrp {
+  width: calc((100% - 10px) / 3);
+}
+.profile-section .profile-hosts .line {
+  position: relative;
+  left: 50%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  height: 1px;
+  width: 90%;
+  transform: translate(-50%, 0);
+  background-color: var(--main-border);
+}
 
 .footer-fixed {
   position: fixed;
@@ -1834,6 +1882,13 @@ section.items-body {
   height: 5.5px;
   background-color: var(--main-border);
   z-index: 2;
+}
+.footer-fixed .progress-bar .bar {
+  position: relative;
+  height: 100%;
+  width: 0%;
+  background-color: #000;
+  transition: width 1s ease 1s;
 }
 .footer-fixed .navigator {
   position: relative;
@@ -1852,6 +1907,9 @@ section.items-body {
   outline: none;
   background: #222222;
   color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .footer-fixed .navigator button:hover {
   background-color: #000000;
@@ -1861,6 +1919,7 @@ section.items-body {
   transform: scale(0.95);
 }
 .footer-fixed .navigator button:disabled {
+  background-color: var(--main-border);
   cursor: not-allowed;
 }
 

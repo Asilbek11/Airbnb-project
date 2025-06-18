@@ -13,13 +13,6 @@ export default function Rooms() {
     console.log(currentHostel);
     const id = useParams();
     const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
-    const images = [
-        '/img/img1.avif', // katta rasm
-        '/img/img2.avif',
-        '/img/img3.avif',
-        '/img/img4.avif',
-        '/img/img5.avif'
-    ];
     const customLocale = {
         ...enUS,
         formatLong: {

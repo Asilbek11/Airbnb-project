@@ -25,9 +25,8 @@ export default function Wishlist() {
           </div>
         </div>
         <div className="container sm card-container">
-          <Cards data={data}/> 
+          <Cards data={data}/>
         </div>
-      
     </section>
     </>
     

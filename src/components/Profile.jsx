@@ -1,14 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import { FaCheck } from "react-icons/fa6";
+import History from './History';
+import CurrentTrips from './CurrentTrips';
 export default function Profile() {
+    let [isFixed, setIsFixed] = useState(false);
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 275) {
+                setIsFixed(true);
+            } else {
+                setIsFixed(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
     return (
         <>
             <header>
                 <Navbar />
             </header>
             <section className='profile-section'>
-                <div className="profile">
+                <div className='profile'>
                     <div className="profile-about">
                         <div className="profile-wrapper">
                             <div className="avatar">
@@ -23,7 +39,7 @@ export default function Profile() {
                             <span>1</span> Year at airbnb
                         </div>
                     </div>
-                    <div className="profile-verify">
+                    <div className={`profile-verify ${isFixed ? 'fixed' : ''}`}>
                         <div className="profile-info">
                             <h2>Farhod's confirmed <br /> information</h2>
                             <div>
@@ -43,8 +59,14 @@ export default function Profile() {
 
                     </div>
                 </div>
-                <div className="create-profile">
-
+                <div className="profile-hosts">
+                    <div className="card-section profile-current">
+                        <CurrentTrips />
+                    </div>
+                    <div className="line"></div>
+                    <div className="card-section profile-history">
+                        <History />
+                    </div>
                 </div>
             </section>
         </>
