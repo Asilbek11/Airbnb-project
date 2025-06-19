@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BeatLoader } from 'react-spinners';
 
 export default function Categorys() {
   const [data,setData] = useState([]);
@@ -23,7 +24,7 @@ export default function Categorys() {
                 </div>
               ))
             :
-            <h1>LOADING. . .</h1>}
+            <BeatLoader style={{textAlign:'center'}}/>}
           </div>
         </div>
   )

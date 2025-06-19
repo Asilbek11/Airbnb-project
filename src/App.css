@@ -164,6 +164,9 @@ section.items-body {
   display: flex;
   gap: 35px;
 }
+.container .category-list .list span {
+  margin: 0 auto;
+}
 .container .category-list .list .list-item {
   transition: none;
   padding: 10px 0px;
@@ -212,6 +215,13 @@ section.items-body {
   grid-template-columns: repeat(4, 25%);
   justify-content: space-between;
   gap: 30px 5px;
+}
+.container.card-container .loader {
+  position: absolute;
+  width: 100%;
+}
+.container.card-container .loader > span {
+  margin: 50px auto;
 }
 .container.wishlist .title {
   font-size: 32px;
@@ -370,19 +380,18 @@ section.items-body {
   font-size: 30px;
 }
 .container.room-container .image-gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  position: relative;
+  display: flex;
   gap: 10px;
   max-width: 100%;
-  max-height: 350px;
+  max-height: 360px;
   margin: 0 auto;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 30px;
 }
 .container.room-container .image-gallery .main-image {
-  position: relative;
-  grid-row: span 2;
+  flex: 1;
 }
 .container.room-container .image-gallery .main-image img {
   display: block;
@@ -391,16 +400,18 @@ section.items-body {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  border-radius: 16px 0 0 16px;
 }
 .container.room-container .image-gallery .side-images {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 0.5fr 0.5fr;
-  grid-template-rows: 0.5fr 0.5fr;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
-.container.room-container .image-gallery .side-images img {
+.container.room-container .image-gallery .side-images div {
+  width: calc(50% - 5px);
+  height: calc(50% - 5px);
+}
+.container.room-container .image-gallery .side-images div img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -642,14 +653,19 @@ section.items-body {
 }
 .container.room-container .order-bar .price {
   margin-bottom: 20px;
+  color: var(--silver);
+  font-weight: 600;
 }
 .container.room-container .order-bar .price span {
+  color: var(--black);
+  text-decoration: underline;
   font-size: 24px;
   font-weight: 730;
 }
 .container.room-container .order-bar .date {
   position: relative;
   font-size: 20px !important;
+  margin-bottom: 15px;
 }
 .container.room-container .order-bar .date .rdrDays button {
   border-radius: 50%;
@@ -746,6 +762,28 @@ section.items-body {
   position: absolute;
   right: -30px;
   z-index: 3;
+}
+.container.room-container .order-bar .order button {
+  width: 100%;
+  padding: 13px 0;
+  font-weight: 700;
+  border-radius: 25px;
+  background-color: var(--main-red);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  background-size: 200% 200%;
+  background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
+  background-image: var(--linaria);
+  --mouse-x: 92.59112365319579;
+  --mouse-y: 0.4166603088378906;
+  border: none;
+  margin-bottom: 15px;
+}
+.container.room-container .order-bar .order span {
+  display: block;
+  text-align: center;
+  font-weight: 600;
 }
 
 .rooms .link-bar {
@@ -1883,8 +1921,22 @@ section.items-body {
   background-color: var(--main-border);
   z-index: 2;
 }
-.footer-fixed .progress-bar .bar {
+.footer-fixed .progress-bar .lines {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-evenly;
+}
+.footer-fixed .progress-bar .lines .line {
   position: relative;
+  height: 100%;
+  width: 8px;
+  background-color: #fff;
+}
+.footer-fixed .progress-bar .bar {
+  position: absolute;
+  left: 0;
   height: 100%;
   width: 0%;
   background-color: #000;

@@ -34,7 +34,7 @@ export default function CreatePlace() {
                      <button
                      data-aos="fade-up"
                      data-aos-delay={i * 100}
-                     data-active={category === item.id ? "active" : ""}
+                     data-active={hotel.category_id === item.id ? "active" : ""}
                      className='item'
                      key={i}
                      onClick={() => {

@@ -10,7 +10,7 @@ export default function CreateDescription() {
         </div>
         <div className="description-wrapper" data-aos="fade-up" data-aos-delay='700'>
             <div>
-                <textarea cols="10" rows="5" value="You'll have a great time at this comfortable place to stay." onChange={(e) => setHotel({...hotel,description: e.target.value})}></textarea>
+                <textarea cols="10" rows="5" value={hotel.description} onChange={(e) => setHotel({...hotel,description: e.target.value})}></textarea>
             </div>
         </div>
     </div>

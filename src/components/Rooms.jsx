@@ -9,7 +9,7 @@ import 'react-date-range/dist/theme/default.css';
 import { useParams } from 'react-router-dom';
 
 export default function Rooms() {
-    const [currentHostel,setCurrentHostel] = useState(null);
+    const [currentHostel, setCurrentHostel] = useState(null);
     console.log(currentHostel);
     const id = useParams();
     const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
@@ -31,10 +31,10 @@ export default function Rooms() {
             key: 'selection',
         },
     ]);
-
+    const buttonRef = useRef(null);
     const [calendarVisible, setCalendarVisible] = useState(true);
     const [menuVisible, setMenuVisible] = useState(false);
-    const [count, setCount] = useState({adults:1, children:0, infants: 0, pets: 0}); 
+    const [count, setCount] = useState({ adults: 1, children: 0, infants: 0, pets: 0 });
     const calendarRef = useRef(null);
     const menu = useRef(null);
     function handleSelect(ranges) {
@@ -90,10 +90,27 @@ export default function Rooms() {
         });
 
         fetch(`http://booking/api/hotels/get-hotels?id=${id.id}`)
-        .then(res => res.json())
-        .then(result => setCurrentHostel(result.hotel));
+            .then(res => res.json())
+            .then(result => setCurrentHostel(result.hotel));
     }, [id])
-    
+
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            const rect = buttonRef.current.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+            buttonRef.current.style.setProperty('--mouse-x', x);
+            buttonRef.current.style.setProperty('--mouse-y', y);
+        };
+
+        const btn = buttonRef.current;
+        btn.addEventListener("mousemove", handleMouseMove);
+        return () => {
+            btn.removeEventListener("mousemove", handleMouseMove);
+        }
+    }, []);
+
     return (
         <>
             <header className='active'>
@@ -119,7 +136,9 @@ export default function Rooms() {
                             </div>
                             <div className="side-images">
                                 {currentHostel?.images.slice(1).map((img, i) => (
-                                    <img key={i} src={img?.url} alt={`Side ${i}`} />
+                                    <div>
+                                        <img key={i} src={img?.url} alt={`Side ${i}`} />
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -129,7 +148,7 @@ export default function Rooms() {
                         <div className="content">
                             <div className="content-info">
                                 <div className="title-room">
-                                    <h4>{currentHostel?.description}</h4>
+                                    <h4>{currentHostel?.address}</h4>
                                     <p>{`
                                         ${currentHostel?.persons} guests · ${currentHostel?.bedrooms} bedroom · ${currentHostel?.beds} beds · ${currentHostel?.bathrooms} baths
                                     `}</p>
@@ -159,11 +178,11 @@ export default function Rooms() {
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{ height: '10px', width: '10px', fill: 'currentcolor' }}><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>
                                                 </div>
                                             </div>
-                                            {/* <div className='line'></div>
+                                            <div className='line'></div>
                                             <div className="reviews">
-                                                <span>83</span>
+                                                <span>0</span>
                                                 <p>Reviews</p>
-                                            </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -179,7 +198,7 @@ export default function Rooms() {
                                     </div>
                                 </div>
                                 <div className="owner-desc">
-                                    <span>Fresh apartment in japandi style, light, newly refurbished and designed. All electronic equipment is newly bought, has all necessary beddings and towels just like in a hotel. The neighbourhood has ex-McDonalds, Starbucks, RIXOS hotel, national cuisine restaurants. The apartment is located at the heart of Almaty with a view to the stadium and the mountains (Koktobe). Downstairs there is a mini-market, 24/7 wine & beer store, fresh bakery, coffee. We offer free foreign guest registration.</span>
+                                    <span>{currentHostel?.description}</span>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +226,7 @@ export default function Rooms() {
                                         </div>
                                         <div className="guest-section">
                                             <div className="guest-wrapper" ref={menu}>
-                                                <div className="guest" onClick={()=>(setMenuVisible(!menuVisible))}>
+                                                <div className="guest" onClick={() => (setMenuVisible(!menuVisible))}>
                                                     <div>
                                                         <span>GUESTS</span>
                                                         <p>1 guest</p>
@@ -223,12 +242,12 @@ export default function Rooms() {
                                                             </div>
                                                             <div className="guest-count">
                                                                 <div class="count-bar">
-                                                                    <button  onClick={() => setCount({...count, adults:count.adults-1})} disabled={count.adults <= 1}>
+                                                                    <button onClick={() => setCount({ ...count, adults: count.adults - 1 })} disabled={count.adults <= 1}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.adults}</span>
-                                                                    <button onClick={() => setCount({...count, adults:count.adults+1})}>
+                                                                    <button onClick={() => setCount({ ...count, adults: count.adults + 1 })}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -242,12 +261,12 @@ export default function Rooms() {
                                                             </div>
                                                             <div className="guest-count">
                                                                 <div class="count-bar">
-                                                                    <button  onClick={() => setCount({...count, children:count.children-1})} disabled={count.children < 1}>
+                                                                    <button onClick={() => setCount({ ...count, children: count.children - 1 })} disabled={count.children < 1}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.children}</span>
-                                                                    <button onClick={() => setCount({...count, children:count.children+1})}>
+                                                                    <button onClick={() => setCount({ ...count, children: count.children + 1 })}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -261,12 +280,12 @@ export default function Rooms() {
                                                             </div>
                                                             <div className="guest-count">
                                                                 <div class="count-bar">
-                                                                    <button  onClick={() => setCount({...count, infants:count.infants-1})} disabled={count.infants < 1}>
+                                                                    <button onClick={() => setCount({ ...count, infants: count.infants - 1 })} disabled={count.infants < 1}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.infants}</span>
-                                                                    <button onClick={() => setCount({...count, infants:count.infants-1})}>
+                                                                    <button onClick={() => setCount({ ...count, infants: count.infants - 1 })}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -280,12 +299,12 @@ export default function Rooms() {
                                                             </div>
                                                             <div className="guest-count">
                                                                 <div class="count-bar">
-                                                                    <button  onClick={() => setCount({...count, pets:count.pets-1})} disabled={count.pets < 1}>
+                                                                    <button onClick={() => setCount({ ...count, pets: count.pets - 1 })} disabled={count.pets < 1}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"></path>
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.pets}</span>
-                                                                    <button onClick={() => setCount({...count, pets:count.pets+1})}>
+                                                                    <button onClick={() => setCount({ ...count, pets: count.pets + 1 })}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -300,7 +319,12 @@ export default function Rooms() {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="order">
+                                        <button ref={buttonRef}>Reserve</button>
+                                        <span>You won't be charged yet</span>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

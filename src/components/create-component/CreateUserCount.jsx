@@ -19,13 +19,11 @@ export default function CreateUserCount() {
                 <div className="count-bar">
                     <button 
                     onClick={() => {
-                        setCount({...count, guest:count.guest-1});
-                        setHotel({...hotel,persons: count.guest-1});
-                    }} disabled={count.guest <= 1}><FaMinus /></button>
-                    <span>{count.guest}</span>
+                        setHotel({...hotel, persons: hotel.persons-1});
+                    }} disabled={hotel.persons <= 1}><FaMinus /></button>
+                    <span>{hotel.persons}</span>
                     <button onClick={() => {
-                        setCount({...count, guest:count.guest+1});
-                        setHotel({...hotel,persons: count.guest+1});
+                        setHotel({...hotel,persons: hotel.persons+1});
                     }}><FaPlus /></button>
                 </div>
             </motion.div>
@@ -35,13 +33,11 @@ export default function CreateUserCount() {
                 </div>
                 <div className="count-bar">
                     <button onClick={() => {
-                        setCount({...count, bedrooms:count.bedrooms-1});
-                        setHotel({...hotel,bedrooms: count.bedrooms-1});
-                    }} disabled={count.bedrooms < 1}><FaMinus /></button>
-                    <span>{count.bedrooms}</span>
+                        setHotel({...hotel,bedrooms: hotel.bedrooms-1});
+                    }} disabled={hotel.bedrooms < 1}><FaMinus /></button>
+                    <span>{hotel.bedrooms}</span>
                     <button onClick={() => {
-                        setCount({...count, bedrooms:count.bedrooms+1});
-                        setHotel({...hotel,bedrooms: count.bedrooms+1});
+                        setHotel({...hotel,bedrooms: hotel.bedrooms+1});
                     }}><FaPlus /></button>
                 </div>
             </motion.div>
@@ -51,13 +47,11 @@ export default function CreateUserCount() {
                 </div>
                 <div className="count-bar">
                     <button onClick={() => {
-                        setCount({...count, beds:count.beds-1});
-                        setHotel({...hotel,beds: count.beds-1});
-                    }} disabled={count.beds <= 1}><FaMinus /></button>
-                    <span>{count.beds}</span>
+                        setHotel({...hotel,beds: hotel.beds-1});
+                    }} disabled={hotel.beds <= 1}><FaMinus /></button>
+                    <span>{hotel.beds}</span>
                     <button onClick={() => {
-                        setCount({...count, beds:count.beds+1});
-                        setHotel({...hotel,beds: count.beds+1});
+                        setHotel({...hotel,beds: hotel.beds+1});
                     }}><FaPlus /></button>
                 </div>
             </motion.div>
@@ -67,13 +61,11 @@ export default function CreateUserCount() {
                 </div>
                 <div className="count-bar">
                     <button onClick={() => {
-                        setCount({...count, bathrooms:count.bathrooms-1});
-                        setHotel({...hotel,bathrooms: count.bathrooms-1});
-                    }} disabled={count.bathrooms <= 1}><FaMinus /></button>
-                    <span>{count.bathrooms}</span>
+                        setHotel({...hotel,bathrooms: hotel.bathrooms-1});
+                    }} disabled={hotel.bathrooms <= 1}><FaMinus /></button>
+                    <span>{hotel.bathrooms}</span>
                     <button onClick={() => {
-                        setCount({...count, bathrooms: count.bathrooms+1});
-                        setHotel({...hotel,bathrooms: count.bathrooms+1});
+                        setHotel({...hotel,bathrooms: hotel.bathrooms+1});
                     }}><FaPlus /></button>
                 </div>
             </motion.div>

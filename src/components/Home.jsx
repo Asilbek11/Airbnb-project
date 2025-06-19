@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import Cards from './Cards'
-import { Outlet, Route } from 'react-router-dom'
-import Categorys from './Categorys'
+import { Outlet } from 'react-router-dom'
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -23,7 +22,6 @@ export default function Home() {
       <section className='items-body'>
         <div className="container card-container">
           <Cards data={data}/>
-          <h1 style={{margin:'400px'}}>erfergerg</h1>
         </div>
       </section>
       <Outlet />

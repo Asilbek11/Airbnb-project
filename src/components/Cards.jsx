@@ -1,19 +1,18 @@
-import React, { useContext, useState } from 'react'
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import React, { useContext } from 'react'
+import { Pagination, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import SwiperBtnNext from './SwiperBtnNext';
 import { WishlistContext } from '../contexts/WishlistContext';
 import { UserContext } from '../contexts/UserContext';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { MoonLoader } from 'react-spinners';
 function Cards({ data }) {
   const [wishlist, setWishlist] = useContext(WishlistContext);
   const [user, setUser] = useContext(UserContext);
   const navigate = useNavigate();
   const handleClick = (item) => {
-
     if(!user){
       alert("Login to add this hostel to your wishlist.");
       return;
@@ -98,7 +97,7 @@ function Cards({ data }) {
             </a>
           </div>
         </div>
-      )) : <h1>Hozircha bo'sh</h1>}
+      )) : <div className="loader"><MoonLoader size={100} /></div>}
     </>
   )
 

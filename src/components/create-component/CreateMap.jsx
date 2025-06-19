@@ -15,7 +15,6 @@ export default function CreateMap() {
   const [showOption, setShowOption] = useState(false);
   const [showInputs, setShowInputs] = useState(false);
   const wrapperRef = useRef(null);
-
   useEffect(() => {
     AOS.init({
       duration: 600,

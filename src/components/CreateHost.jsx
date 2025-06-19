@@ -15,12 +15,11 @@ import CreateImage from './create-component/CreateImage';
 import { BeatLoader } from 'react-spinners';
 
 export default function CreateHost() {
-
   const { step } = useParams();
   const [user, setUser] = useContext(UserContext);
   const [hotel, setHotel] = useState({
     name: null,
-    price: "null",
+    price: 0,
     description: null,
     bathrooms: 1,
     bedrooms: 1,
@@ -28,15 +27,22 @@ export default function CreateHost() {
     city: "null",
     persons: 1,
     rating: 0,
-    address: "null",
+    address:{
+      coutryCity:'',
+      address: '',
+      district: '',
+      street: ''
+    },
     owner_id: user?.id,
     category_id: null,
-    images: ["1", "2"]
+    images: []
   });
+  const TOTAL_STEPS = 10;
+  const progress = ((parseInt(step) - 1) / (TOTAL_STEPS - 1)) * 100;
   const navigate = useNavigate();
   const [isNextLoading, setIsNextLoading] = useState(false);
   const [isPrevLoading, setIsPrevLoading] = useState(false);
-  const timeout = '1500'
+  const timeout = '1800'
   let [active, setActive] = useState(false)
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -132,8 +138,37 @@ export default function CreateHost() {
       videoUrl: "../vid2.mp4"
     },
   ];
-  const TOTAL_STEPS = 10;
-  const progress = ((parseInt(step) - 1) / (TOTAL_STEPS - 1)) * 100;
+  const stepContent = (step) => {
+    switch (parseInt(step)) {
+      case 1: return <CreateComponent fields={fields[0]} />;
+      case 2: return <CreatePlace />;
+      case 3: return <CreateUserCount />;
+      case 4: return <CreateComponent fields={fields[1]} />;
+      case 5: return <CreateImage />;
+      case 6: return <CreateMap />;
+      case 7: return <CreateTitle />;
+      case 8: return <CreateDescription />;
+      case 9: return <CreatePrice />;
+      case 10: return <CreateComponent fields={fields[2]} />;
+      default: return null;
+    }
+  };
+  
+  const getMotionProps = (step) => {
+    // Add custom animation per step if needed
+    const yEnabledSteps = [2, 3, 4, 5, 7, 8, 9];
+    const y = yEnabledSteps.includes(parseInt(step)) ? 20 : 0;
+    return {
+      key: step,
+      initial: { opacity: 0, y },
+      animate: { opacity: 1, y: 0 },
+      exit: { opacity: 0 },
+      transition: { delay: 0.3, duration: 0.5 }
+    };
+  };
+  
+  
+ 
   return (
     <>
       <header style={active ? { margin: 0 } : { border: 'none' }}>
@@ -141,122 +176,16 @@ export default function CreateHost() {
       </header>
       <HostContext.Provider value={[hotel, setHotel]}>
         <section>
-          <div className="container-create">
-            {
-              <AnimatePresence mode="wait">
-                {parseInt(step) === 1 && (
-                  <motion.div
-                    key={1}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateComponent fields={fields[0]} />
-                  </motion.div>
-                )}
-                {parseInt(step) === 2 && (
-                  <motion.div
-                    key={2}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreatePlace />
-                  </motion.div>
-                )}
-                {parseInt(step) === 3 && (
-                  <motion.div
-                    key={3}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateUserCount />
-                  </motion.div>
-                )}
-                {parseInt(step) === 4 && (
-                  <motion.div
-                    key={4}
-                    initial={{ opacity: 0, y: 0 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateMap />
-                  </motion.div>
-                )}
-                {parseInt(step) === 5 && (
-                  <motion.div
-                    key={5}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateImage />
-                  </motion.div>
-                )}
-                {parseInt(step) === 6 && (
-                  <motion.div
-                    key={6}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateComponent fields={fields[1]} />
-                  </motion.div>
-                )}
-                {parseInt(step) === 7 && (
-                  <motion.div
-                    key={7}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateTitle />
-                  </motion.div>
-                )}
-                {parseInt(step) === 8 && (
-                  <motion.div
-                    key={8}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateDescription />
-                  </motion.div>
-                )}
-                {parseInt(step) === 9 && (
-                  <motion.div
-                    key={9}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreatePrice />
-                  </motion.div>
-                )}
-                {parseInt(step) === 10 && (
-                  <motion.div
-                    key={10}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <CreateComponent fields={fields[2]} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            }
-          </div>
+        <div className="container-create">
+      <AnimatePresence mode="wait">
+        {stepContent(step) && (
+          <motion.div {...getMotionProps(step)}>
+            {stepContent(step)}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+
         </section>
       </HostContext.Provider>
       <footer className='footer-fixed'>
@@ -264,12 +193,17 @@ export default function CreateHost() {
           <div
             className="bar"
             style={{ width: `${progress}%` }}
-          ></div>
+          >
+          </div>
+          <div className="lines">
+            <div className="line"></div>
+            <div className="line"></div>
+          </div>
         </div>
         <div className="navigator">
           <button
             className={`prev-btn ${isPrevLoading ? 'loading' : ''}`}
-            disabled={isPrevLoading || step === 1}
+            disabled={isPrevLoading || step == 1}
             onClick={prevPage}
           >
             {isPrevLoading ? (
@@ -285,9 +219,9 @@ export default function CreateHost() {
             onClick={nextPage}
           >
             {isNextLoading ? (
-             <BeatLoader size={7} color="#fff" />
+              <BeatLoader size={7} color="#fff" />
             ) : (
-              step < 10 ? 'Next' : 'Finish'
+              step < TOTAL_STEPS ? 'Next' : 'Finish'
             )}
           </button>
 

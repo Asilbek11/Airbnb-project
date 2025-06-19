@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AOS from 'aos';
+import { HostContext } from '../../contexts/HostContext';
 export default function CreateTitle() {
+  const [hotel,setHotel] = useContext(HostContext);
   useEffect(() => {
     AOS.init({
       duration: 600,
@@ -16,7 +18,7 @@ export default function CreateTitle() {
         </div>
         <div className="description-wrapper" data-aos="fade-up" data-aos-delay='700'>
             <div>
-                <textarea cols="10" rows="5"></textarea>
+                <textarea cols="10" rows="5" value={hotel.title} onChange={(e) => setHotel({...hotel,title: e.target.value})}></textarea>
             </div>
         </div>
     </div>
