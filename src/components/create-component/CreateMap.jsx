@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { TiLocation } from "react-icons/ti";
 import { TbLocation } from "react-icons/tb";
+import { HostContext } from '../../contexts/HostContext';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import AOS from 'aos';
@@ -14,6 +15,7 @@ export default function CreateMap() {
   const [street, setStreet] = useState('');
   const [showOption, setShowOption] = useState(false);
   const [showInputs, setShowInputs] = useState(false);
+  const [hotel,setHotel] = useContext(HostContext);
   const wrapperRef = useRef(null);
   useEffect(() => {
     AOS.init({
@@ -77,12 +79,14 @@ export default function CreateMap() {
             const data = await res.json();
             const { road, suburb, neighbourhood, city_district, city, town, country } = data.address || {};
             setAddress(data.display_name || 'Address not found');
+            setHotel({...hotel,address: data.display_name});
             const cityOrTown = city || town || '';
             setCountryCity([country, cityOrTown].filter(Boolean).join(', '));
             const districtVal = suburb || neighbourhood || city_district || '';
             setDistrict(districtVal);
             setStreet(road || '');
             setShowInputs(true);
+            setHotel({...hotel,address: data.display_name,city: cityOrTown});
           } catch (e) {
             console.error('Reverse geocoding failed:', e);
           }
