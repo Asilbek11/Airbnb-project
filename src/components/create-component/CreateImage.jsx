@@ -1,10 +1,11 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState } from 'react';
 import { FaRegTrashAlt } from "react-icons/fa";
 import { BsPlusLg } from "react-icons/bs";
 import { IoImageOutline } from "react-icons/io5";
 import { HostContext } from '../../contexts/HostContext';
 
 export default function CreateImage() {
+  // const [selectedImages,setSelectedImages]  = useState([]);
   const fileInputRef = useRef(null);
   const [hotel, setHotel] = useContext(HostContext);
 
@@ -27,7 +28,7 @@ export default function CreateImage() {
       updatedImages.push(null);
     }
 
-    setHotel({ ...hotel, images: updatedImages });
+    setHotel({ ...hotel, images: updatedImages,imageObjs: [...hotel.imageObjs,...Array.from(e.target.files)]});
   };
 
   const handleDelete = (index) => {

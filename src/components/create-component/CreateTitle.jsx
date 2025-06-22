@@ -18,7 +18,7 @@ export default function CreateTitle() {
         </div>
         <div className="description-wrapper" data-aos="fade-up" data-aos-delay='700'>
             <div>
-                <textarea cols="10" rows="5" value={hotel.title} onChange={(e) => setHotel({...hotel,title: e.target.value})}></textarea>
+                <textarea cols="10" rows="5" value={hotel.title} onChange={(e) => setHotel({...hotel,title: e.target.value,name: e.target.value})}></textarea>
             </div>
         </div>
     </div>

@@ -27,15 +27,11 @@ export default function CreateHost() {
     city: "null",
     persons: 1,
     rating: 0,
-    address:{
-      coutryCity:'',
-      address: '',
-      district: '',
-      street: ''
-    },
+    address: "",
     owner_id: user?.id,
     category_id: null,
-    images: []
+    images: [],
+    imageObjs: []
   });
   const TOTAL_STEPS = 10;
   const progress = ((parseInt(step) - 1) / (TOTAL_STEPS - 1)) * 100;
@@ -61,15 +57,26 @@ export default function CreateHost() {
         setIsNextLoading(false);
       }, timeout);
     } else {
-      navigate('/');
+      // navigate('/');
+      console.log(hotel);
+      
+      const fullForm = new FormData();
+
+      // Ma'lumotlar
+      Object.keys(hotel).forEach((key) => {
+        if(key != "images" || key != "imagesObjs"){
+          fullForm.append(key, hotel[key]);
+        }
+      });
+      hotel.imageObjs.forEach((image, index) => {
+        fullForm.append('images[]', image);
+      });
       fetch("http://booking/api/hotels/create-hotels", {
         method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ ...hotel })
+        body: fullForm,
+        credentials: 'include'
       }).then(res => {
+        console.log(res);
         if (res.ok) {
           return res.json();
         } else {
