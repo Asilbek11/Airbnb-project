@@ -7,7 +7,7 @@ import SwiperBtnNext from './SwiperBtnNext';
 import { WishlistContext } from '../contexts/WishlistContext';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { MoonLoader } from 'react-spinners';
+import { HashLoader } from 'react-spinners';
 function Cards({ data }) {
   const [wishlist, setWishlist] = useContext(WishlistContext);
   const [user, setUser] = useContext(UserContext);
@@ -97,7 +97,7 @@ function Cards({ data }) {
             </a>
           </div>
         </div>
-      )) : <div className="loader"><MoonLoader size={100} /></div>}
+      )) : <div className="loader"><HashLoader size={80} /></div>}
     </>
   )
 

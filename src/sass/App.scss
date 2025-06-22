@@ -189,10 +189,11 @@ section {
 
     .category-list {
         display: flex;
+        position: relative;
         gap: 10px;
         padding: 15px 0;
         padding-bottom: 0;
-
+        z-index: 0;
         .list {
             width: 100%;
             overflow: hidden;
@@ -1258,8 +1259,25 @@ section {
                 padding: 0;
                 display: flex;
                 justify-content: space-between;
-
-                >div {
+                .calendar-container{
+                    position: absolute;
+                    top: 60px;
+                    z-index: 1905;
+                    background: #fff;
+                    .rdrCalendarWrapper{
+                        position: relative;
+                        z-index: 10;
+                    }
+                    .rdrDateDisplayWrapper{
+                        display: none;
+                    }
+                    .rdrMonthAndYearWrapper,.rdrMonths{
+                        background-color: #fff;
+                        position: relative;
+                        z-index: 100;
+                    } 
+                }
+                >.date {
                     padding: 15px;
                     border-radius: 34px;
                     position: relative;
@@ -1267,6 +1285,7 @@ section {
                     &:hover {
                         background-color: var(--hover-label);
                     }
+                   
                 }
 
                 .line {
@@ -1380,7 +1399,9 @@ section {
                 &:hover {
                     background-color: #fff;
                 }
-
+                .calendar-container{
+                    display: none;
+                }
                 &.date-wrapper {
                     border-radius: 35px;
                     padding: 12px 0;

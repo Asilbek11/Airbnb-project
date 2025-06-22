@@ -154,9 +154,11 @@ section.items-body {
 }
 .container .category-list {
   display: flex;
+  position: relative;
   gap: 10px;
   padding: 15px 0;
   padding-bottom: 0;
+  z-index: 0;
 }
 .container .category-list .list {
   width: 100%;
@@ -1023,12 +1025,30 @@ section.items-body {
   display: flex;
   justify-content: space-between;
 }
-.menu-wrapper-lg .form-bar > div.date-wrapper > div {
+.menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container {
+  position: absolute;
+  top: 60px;
+  z-index: 1905;
+  background: #fff;
+}
+.menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrCalendarWrapper {
+  position: relative;
+  z-index: 10;
+}
+.menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrDateDisplayWrapper {
+  display: none;
+}
+.menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrMonthAndYearWrapper, .menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrMonths {
+  background-color: #fff;
+  position: relative;
+  z-index: 100;
+}
+.menu-wrapper-lg .form-bar > div.date-wrapper > .date {
   padding: 15px;
   border-radius: 34px;
   position: relative;
 }
-.menu-wrapper-lg .form-bar > div.date-wrapper > div:hover {
+.menu-wrapper-lg .form-bar > div.date-wrapper > .date:hover {
   background-color: var(--hover-label);
 }
 .menu-wrapper-lg .form-bar > div.date-wrapper .line {
@@ -1127,6 +1147,9 @@ section.items-body {
 }
 .menu-lg.active .menu-wrapper-lg .form-bar.active div:hover {
   background-color: #fff;
+}
+.menu-lg.active .menu-wrapper-lg .form-bar.active div .calendar-container {
+  display: none;
 }
 .menu-lg.active .menu-wrapper-lg .form-bar.active div.date-wrapper {
   border-radius: 35px;

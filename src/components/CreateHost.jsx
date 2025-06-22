@@ -166,9 +166,6 @@ export default function CreateHost() {
       transition: { delay: 0.3, duration: 0.5 }
     };
   };
-  
-  
- 
   return (
     <>
       <header style={active ? { margin: 0 } : { border: 'none' }}>

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Categorys from './Categorys';
 import { UserContext } from '../contexts/UserContext';
 import { WishlistContext } from '../contexts/WishlistContext';
+import { DateRange } from 'react-date-range';
 
 export default function Navbar() {
     const [user, setUser] = useContext(UserContext);
@@ -15,7 +16,7 @@ export default function Navbar() {
     const loginPages = ['/login', '/verify'];
     const wishlistPages = ['/', '/wishlist', '/hosts', '/profile'];
     const roomPages = [`/rooms/${itemId}`];
-
+    const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
     const loginPage = loginPages.includes(pathname);
     const createPage = pathname.startsWith('/create-host');
     const roomPage = roomPages.includes(pathname);
@@ -23,7 +24,42 @@ export default function Navbar() {
     const [menuVisible, setMenuVisible] = useState(false);
     const wishlistPage = wishlistPages.includes(pathname);
     const menu = useRef(null);
-    console.log(roomPage);
+    const [range, setRange] = useState([
+        {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection',
+        },
+    ]);
+
+    const [showCalendar, setShowCalendar] = useState(false);
+
+    const calendarRef = useRef();
+
+    // 🔁 Tashqariga bosilganda yopish
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+                setShowCalendar(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    // 🔁 EndDate tanlanganda yopish
+    const handleDateChange = (item) => {
+        setRange([item.selection]);
+
+        const { startDate, endDate } = item.selection;
+        if (startDate && endDate && startDate.getTime() !== endDate.getTime()) {
+            setShowCalendar(false);
+        }
+    };
+
     useEffect(() => {
         window.addEventListener('scroll', () => {
             if (window.scrollY < 40) {
@@ -33,28 +69,28 @@ export default function Navbar() {
             }
         });
     }, [])
-    
-  const menuRef = useRef(null);
-  const toggleMenu = () => {
-    setMenuVisible(prev => !prev);
-  };
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuVisible(true);
-      }
+    const menuRef = useRef(null);
+    const toggleMenu = () => {
+        setMenuVisible(prev => !prev);
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setMenuVisible(true);
+            }
+        };
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
 
-  
+
     const handleClick = (title) => {
         navigate(title)
     }
@@ -89,19 +125,42 @@ export default function Navbar() {
                                     <h4>Anywhere</h4>
                                 </div>
                                 <div className="line"></div>
-                                <div className="date-wrapper">
-                                    <div className="first-date date">
+                                <div className="date-wrapper" style={{ position: 'relative' }}>
+                                    <div className="first-date date" onClick={() => setShowCalendar(true)}>
                                         <label className="form-local">
                                             <h5>Check in</h5>
-                                            <input type="date" placeholder='Add dates' />
+                                            <input
+                                                type="text"
+                                                readOnly
+                                                value={range[0].startDate}
+                                                placeholder="Add dates"
+                                            />
                                         </label>
                                     </div>
-                                    <div className="last-date date">
+                                    <div className="last-date date" onClick={() => setShowCalendar(true)}>
                                         <label className="form-local">
                                             <h5>Check out</h5>
-                                            <input type='date' placeholder='Add dates' />
+                                            <input
+                                                type="text"
+                                                readOnly
+                                                value={range[0].endDate}
+                                                placeholder="Add dates"
+                                            />
                                         </label>
                                     </div>
+
+                                    {showCalendar && (
+                                        <div className='calendar-container' ref={calendarRef}>
+                                            <DateRange
+                                                editableDateInputs={true}
+                                                onChange={handleDateChange}
+                                                moveRangeOnFirstSelection={false}
+                                                ranges={range}
+                                                rangeColors={[color]}
+                                            />
+                                        </div>
+                                    )}
+
                                     <h4>Any week</h4>
                                 </div>
                                 <div className="line"></div>
