@@ -3,11 +3,11 @@ import Cards from './Cards';
 
 export default function CurrentTrips() {
     const [data,setData] = useState([]);
-  
+    console.log(data);
     useEffect(()=>{
-      fetch("http://booking/api/hotels/get-hotels")
+      fetch("http://booking/api/hotels/get-booked-hotels")
       .then(res => res.json())
-      .then(result => setData(result.hotels))
+      .then(result => setData(result.trips))
       .catch(err => {
         console.log(err);
       });

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { HostContext } from '../../contexts/HostContext';
 
 export default function CreatePrice() {
-  const [price, setPrice] = useState('0');
+  const [price, setPrice] = useState();
   const [hotel,setHotel] = useContext(HostContext);
   const handleChange = (e) => {
     let val = e.target.value;

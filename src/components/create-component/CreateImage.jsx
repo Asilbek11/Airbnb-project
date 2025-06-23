@@ -40,7 +40,7 @@ export default function CreateImage() {
   const images = hotel.images || [];
   const filledImages = [...images];
 
-  while (filledImages.length < 5) {
+  while (filledImages.length <= 5) {
     filledImages.push(null);
   }
 
@@ -94,7 +94,7 @@ export default function CreateImage() {
               </>
             ) : (
               <div className="placeholder">
-                {index >= 4 ? (
+                {index >= 5 ? (
                   <>
                     <BsPlusLg size={24} />
                     <span>Add more</span>
