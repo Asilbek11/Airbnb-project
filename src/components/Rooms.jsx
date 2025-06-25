@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Navbar from './Navbar'
 import { GiCutDiamond } from "react-icons/gi";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -7,10 +7,10 @@ import { enUS } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { useParams } from 'react-router-dom';
+import { PropagateLoader } from 'react-spinners';
 
 export default function Rooms() {
     const [currentHostel, setCurrentHostel] = useState(null);
-    console.log(currentHostel);
     const id = useParams();
     const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
     const customLocale = {
@@ -46,6 +46,10 @@ export default function Rooms() {
             setCalendarVisible(true);
         }
     }
+    // const hostelCount = currentHostel.persons + currentHostel.b
+    const totalCount = useMemo(() => {
+        return Object.values(count).reduce((sum, val) => sum + val, 0);
+      }, [count]);
     useEffect(() => {
         const handleClick = (e) => {
             const isInside = calendarRef.current?.contains(e.target);
@@ -130,19 +134,24 @@ export default function Rooms() {
                         <div className="title">
                             <h2>{currentHostel?.name}</h2>
                         </div>
-                        <div className="image-gallery">
-                            <div className="main-image">
-                                <img src={currentHostel?.images[0]?.url} alt="Main" />
+                        {currentHostel ?
+                            <div className="image-gallery">
+                                <div className="main-image">
+                                    <img src={currentHostel?.images[0]?.url} alt="Main" />
+                                </div>
+                                <div className="side-images">
+                                    {currentHostel?.images.slice(1).map((img, i) => (
+                                        <div>
+                                            <img key={i} src={img?.url} alt={`Side ${i}`} />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="side-images">
-                                {currentHostel?.images.slice(1).map((img, i) => (
-                                    <div>
-                                        <img key={i} src={img?.url} alt={`Side ${i}`} />
-                                    </div>
-                                ))}
+                            :
+                            <div className="image-gallery">
+                                <PropagateLoader size={30} />
                             </div>
-                        </div>
-
+                        }
                     </div>
                     <div className="guest-content">
                         <div className="content">
@@ -229,7 +238,7 @@ export default function Rooms() {
                                                 <div className="guest" onClick={() => (setMenuVisible(!menuVisible))}>
                                                     <div>
                                                         <span>GUESTS</span>
-                                                        <p>1 guest</p>
+                                                        <p>{totalCount} guest</p>
                                                     </div>
                                                     {menuVisible ? <IoIosArrowUp /> : <IoIosArrowDown />}
                                                 </div>
@@ -247,7 +256,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.adults}</span>
-                                                                    <button onClick={() => setCount({ ...count, adults: count.adults + 1 })}>
+                                                                    <button onClick={() => setCount({ ...count, adults: count.adults + 1 })} disabled={(count.adults >= currentHostel?.persons) || totalCount>=currentHostel?.persons}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -266,7 +275,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.children}</span>
-                                                                    <button onClick={() => setCount({ ...count, children: count.children + 1 })}>
+                                                                    <button onClick={() => setCount({ ...count, children: count.children + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.children >= currentHostel?.persons+2)) || totalCount>=currentHostel?.persons+2}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -285,7 +294,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.infants}</span>
-                                                                    <button onClick={() => setCount({ ...count, infants: count.infants - 1 })}>
+                                                                    <button onClick={() => setCount({ ...count, infants: count.infants + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.infants >= currentHostel?.persons)) || totalCount>=currentHostel?.persons}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -304,7 +313,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.pets}</span>
-                                                                    <button onClick={() => setCount({ ...count, pets: count.pets + 1 })}>
+                                                                    <button onClick={() => setCount({ ...count, pets: count.pets + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.pets >= currentHostel?.persons+1)) || totalCount>=currentHostel?.persons+1}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -324,7 +333,6 @@ export default function Rooms() {
                                         <span>You won't be charged yet</span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

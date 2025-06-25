@@ -114,15 +114,16 @@ header {
                     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.13);
                     border-radius: 13px;
                     z-index: 3;
-                    &.active {
+                    &.visible {
                         visibility: visible;
                         opacity: 1;
                     }
-                    div {
+                    div{
                         padding: 8px 0;
-                        border-bottom: 1px solid var(--main-border);
                     }
-
+                    div:nth-child(2){
+                        border-top: 1px solid var(--main-border);
+                    }
                     li {
                         position: relative;
                         cursor: pointer;
@@ -189,7 +190,6 @@ section {
 
     .category-list {
         display: flex;
-        position: relative;
         gap: 10px;
         padding: 15px 0;
         padding-bottom: 0;
@@ -297,14 +297,29 @@ section {
             * {
                 font-family: 'Raleway';
             }
-
             position: relative;
             width: 40%;
             margin-top: 100px;
             border-radius: 30px;
             box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.1),
             0 1px 2px 0 rgba(0, 0, 0, 0.08);
-
+            .submit-btn{
+                width: 100%;
+                padding: 15px 0;
+                background-color: var(--main-red);
+                color: white;
+                font-size: 18px;
+                font-weight: 600;
+                cursor: pointer;
+                background-size: 200% 200%;
+                background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
+                background-image: var(--linaria);
+                --mouse-x: 92.59112365319579;
+                --mouse-y: 0.4166603088378906;
+                border: none;
+                border-radius: 10px;
+                margin-bottom: 10px;
+            }
             input {
                 margin-bottom: 10px;
                 border: 1.6px solid var(--main-border);
@@ -332,19 +347,6 @@ section {
                     &::placeholder {
                         color: var(--main-red);
                     }
-                }
-
-                &[type="submit"] {
-                    background-color: var(--main-red);
-                    color: white;
-                    font-size: 18px;
-                    cursor: pointer;
-                    background-size: 200% 200%;
-                    background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
-                    background-image: var(--linaria);
-                    --mouse-x: 92.59112365319579;
-                    --mouse-y: 0.4166603088378906;
-                    border: none;
                 }
             }
 
@@ -494,6 +496,10 @@ section {
                     object-fit: cover;
                     object-position: center;
                 }
+            }
+
+            >span{
+                margin: 180px auto;
             }
 
             .side-images {
@@ -774,7 +780,7 @@ section {
 
             &.fixed {
                 position: fixed;
-                top: 105px;
+                top: 118px;
                 z-index: 10;
             }
 
@@ -972,6 +978,9 @@ section {
                     display: block;
                     text-align: center;
                     font-weight: 600;
+                }
+                .loader{
+                    margin: 0 auto;
                 }
             }
         }
@@ -2097,6 +2106,7 @@ section {
                 }
             }
         }
+
 
 
     }

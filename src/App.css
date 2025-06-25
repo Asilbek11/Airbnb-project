@@ -98,13 +98,15 @@ header nav .status-bar .account-bar .account-menu {
   border-radius: 13px;
   z-index: 3;
 }
-header nav .status-bar .account-bar .account-menu.active {
+header nav .status-bar .account-bar .account-menu.visible {
   visibility: visible;
   opacity: 1;
 }
 header nav .status-bar .account-bar .account-menu div {
   padding: 8px 0;
-  border-bottom: 1px solid var(--main-border);
+}
+header nav .status-bar .account-bar .account-menu div:nth-child(2) {
+  border-top: 1px solid var(--main-border);
 }
 header nav .status-bar .account-bar .account-menu li {
   position: relative;
@@ -154,7 +156,6 @@ section.items-body {
 }
 .container .category-list {
   display: flex;
-  position: relative;
   gap: 10px;
   padding: 15px 0;
   padding-bottom: 0;
@@ -243,6 +244,23 @@ section.items-body {
 .container.form-container form * {
   font-family: "Raleway";
 }
+.container.form-container form .submit-btn {
+  width: 100%;
+  padding: 15px 0;
+  background-color: var(--main-red);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  background-size: 200% 200%;
+  background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
+  background-image: var(--linaria);
+  --mouse-x: 92.59112365319579;
+  --mouse-y: 0.4166603088378906;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 .container.form-container form input {
   margin-bottom: 10px;
   border: 1.6px solid var(--main-border);
@@ -267,18 +285,6 @@ section.items-body {
 }
 .container.form-container form input.error::placeholder {
   color: var(--main-red);
-}
-.container.form-container form input[type=submit] {
-  background-color: var(--main-red);
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  background-size: 200% 200%;
-  background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
-  background-image: var(--linaria);
-  --mouse-x: 92.59112365319579;
-  --mouse-y: 0.4166603088378906;
-  border: none;
 }
 .container.form-container form .form-head {
   display: flex;
@@ -402,6 +408,9 @@ section.items-body {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+.container.room-container .image-gallery > span {
+  margin: 180px auto;
 }
 .container.room-container .image-gallery .side-images {
   flex: 1;
@@ -628,7 +637,7 @@ section.items-body {
 }
 .container.room-container .order-rate.fixed {
   position: fixed;
-  top: 105px;
+  top: 118px;
   z-index: 10;
 }
 .container.room-container .order-rate > div {
@@ -786,6 +795,9 @@ section.items-body {
   display: block;
   text-align: center;
   font-weight: 600;
+}
+.container.room-container .order-bar .order .loader {
+  margin: 0 auto;
 }
 
 .rooms .link-bar {
