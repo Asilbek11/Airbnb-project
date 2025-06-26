@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,87.5,200..1000;1,6..12,87.5,200..1000&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -8,23 +9,29 @@
   transition: all .2s;
   list-style: none;
 }
-:root{
-  --main-red:#FF385C;
-  --main-hover:#F7F7F7FF;
-  --main-border:#DDDDDD;
-  --hover-label:#EBEBEBFF;
-  --silver:#747474FF;
-  --black:#000000FF;
-  --pagination:rgb(247, 247, 247);
+
+:root {
+  --main-red: #FF385C;
+  --main-hover: #F7F7F7FF;
+  --main-border: #DDDDDD;
+  --hover-label: #EBEBEBFF;
+  --silver: #747474FF;
+  --black: #000000FF;
+  --pagination: rgb(247, 247, 247);
   --linaria: radial-gradient(circle at center, #FF385C 0%, #E61E4D 27.5%, #E31C5F 40%, #D70466 57.5%, #BD1E59 75%, #BD1E59 100%);
 }
-body{
+
+body {
+  scroll-behavior: smooth;
   background-color: #ffff;
 }
-.container-main{
+
+.container-main {
   max-width: 1550px;
   font-size: 17px;
 }
-.container{
+
+.container {
   padding: 0 80px;
 }
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import Navbar from './Navbar'
 import { GiCutDiamond } from "react-icons/gi";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -6,11 +6,15 @@ import { DateRange } from 'react-date-range';
 import { enUS } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { useParams } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
+import { LuFileImage } from "react-icons/lu";
 export default function Rooms() {
+    const navigate = useNavigate();
     const [currentHostel, setCurrentHostel] = useState(null);
+    const [showImg, setShowImg] = useState(true);
+    const [user, setUser] = useContext(UserContext);
     const id = useParams();
     const color = getComputedStyle(document.documentElement).getPropertyValue('--main-red').trim();
     const customLocale = {
@@ -39,6 +43,8 @@ export default function Rooms() {
     const menu = useRef(null);
     function handleSelect(ranges) {
         setState([ranges.selection]);
+        console.log([ranges.selection]);
+        console.log(ranges);
         const selection = ranges.selection;
         const start = selection.startDate;
         const end = selection.endDate;
@@ -49,7 +55,44 @@ export default function Rooms() {
     // const hostelCount = currentHostel.persons + currentHostel.b
     const totalCount = useMemo(() => {
         return Object.values(count).reduce((sum, val) => sum + val, 0);
-      }, [count]);
+    }, [count]);
+
+    function formatDate(params) {
+        const date = new Date(params);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`
+    }
+
+    function bookHotel() {
+        if (!user) return;
+
+        fetch("http://booking/api/hotels/book-hotels", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                user_id: user.id,
+                hotel_id: id,
+                started_at: formatDate(state[0].startDate),
+                ended_at: formatDate(state[0].endDate)
+            })
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw res.json();
+                }
+            })
+            .then(result => navigate('/profile'))
+            .catch(err => {
+                err.then(err => alert(err.error))
+            });
+    }
     useEffect(() => {
         const handleClick = (e) => {
             const isInside = calendarRef.current?.contains(e.target);
@@ -137,7 +180,19 @@ export default function Rooms() {
                         {currentHostel ?
                             <div className="image-gallery">
                                 <div className="main-image">
-                                    <img src={currentHostel?.images[0]?.url} alt="Main" />
+                                    {currentHostel?.images[0] ? (
+                                        showImg ? (
+                                            <img
+                                                src={currentHostel?.images[0]?.url}
+                                                alt="Main"
+                                                onError={() => setShowImg(false)}
+                                            />
+                                        ) : (
+                                            <LuFileImage />
+                                        )
+                                    ) : (
+                                        <LuFileImage />
+                                    )}
                                 </div>
                                 <div className="side-images">
                                     {currentHostel?.images.slice(1).map((img, i) => (
@@ -256,7 +311,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.adults}</span>
-                                                                    <button onClick={() => setCount({ ...count, adults: count.adults + 1 })} disabled={(count.adults >= currentHostel?.persons) || totalCount>=currentHostel?.persons}>
+                                                                    <button onClick={() => setCount({ ...count, adults: count.adults + 1 })} disabled={(count.adults >= currentHostel?.persons) || totalCount >= currentHostel?.persons}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -275,7 +330,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.children}</span>
-                                                                    <button onClick={() => setCount({ ...count, children: count.children + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.children >= currentHostel?.persons+2)) || totalCount>=currentHostel?.persons+2}>
+                                                                    <button onClick={() => setCount({ ...count, children: count.children + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.children >= currentHostel?.persons + 2)) || totalCount >= currentHostel?.persons + 2}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -294,7 +349,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.infants}</span>
-                                                                    <button onClick={() => setCount({ ...count, infants: count.infants + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.infants >= currentHostel?.persons)) || totalCount>=currentHostel?.persons}>
+                                                                    <button onClick={() => setCount({ ...count, infants: count.infants + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.infants >= currentHostel?.persons)) || totalCount >= currentHostel?.persons}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -313,7 +368,7 @@ export default function Rooms() {
                                                                         </svg>
                                                                     </button>
                                                                     <span>{count.pets}</span>
-                                                                    <button onClick={() => setCount({ ...count, pets: count.pets + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.pets >= currentHostel?.persons+1)) || totalCount>=currentHostel?.persons+1}>
+                                                                    <button onClick={() => setCount({ ...count, pets: count.pets + 1 })} disabled={((count.adults >= currentHostel?.persons) && (count.pets >= currentHostel?.persons + 1)) || totalCount >= currentHostel?.persons + 1}>
                                                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path>
                                                                         </svg>
                                                                     </button>
@@ -329,7 +384,7 @@ export default function Rooms() {
                                         </div>
                                     </div>
                                     <div className="order">
-                                        <button ref={buttonRef}>Reserve</button>
+                                        <button ref={buttonRef} onClick={() => bookHotel()}>Reserve</button>
                                         <span>You won't be charged yet</span>
                                     </div>
                                 </div>

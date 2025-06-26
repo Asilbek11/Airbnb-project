@@ -1,3 +1,21 @@
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  transition: all 0.5s;
+  background: var(--main-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888888;
+}
+
 header {
   width: 100%;
   position: fixed;
@@ -161,16 +179,80 @@ section.items-body {
   padding-bottom: 0;
   z-index: 0;
 }
+.container .category-list .loading {
+  margin: 0 auto;
+}
 .container .category-list .list {
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   gap: 35px;
 }
 .container .category-list .list span {
   margin: 0 auto;
 }
-.container .category-list .list .list-item {
+.container .category-list .list::-webkit-scrollbar {
+  height: 3px;
+}
+.container .category-list .list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.container .category-list .list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+.container .category-list .list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.container .category-list .swiper {
+  position: relative;
+}
+.container .category-list .swiper::after, .container .category-list .swiper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+}
+.container .category-list .swiper::after {
+  left: 0;
+  background: #fff7f7;
+  background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(0, 0, 0, 0) 65%);
+}
+.container .category-list .swiper::before {
+  right: 0;
+  background: #000000;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(255, 255, 255) 65%);
+}
+.container .category-list .swiper .swiper-btn:nth-of-type(1) {
+  left: 0;
+}
+.container .category-list .swiper .swiper-btn:nth-of-type(2) {
+  right: 0;
+}
+.container .category-list .swiper .swiper-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  cursor: pointer;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.85;
+  transition: all 0.3s;
+  transform: translateY(-50%);
+}
+.container .category-list .swiper .swiper-btn:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.05);
+}
+.container .category-list .swiper .swiper-slide {
   transition: none;
   padding: 10px 0px;
   text-align: center;
@@ -182,28 +264,29 @@ section.items-body {
   align-items: center;
   color: var(--silver);
   border-bottom: 2px solid white;
+  width: auto !important;
 }
-.container .category-list .list .list-item.active {
+.container .category-list .swiper .swiper-slide.active {
   color: var(--black);
   border-bottom: 3px solid var(--black);
 }
-.container .category-list .list .list-item.active img {
+.container .category-list .swiper .swiper-slide.active img {
   opacity: 1;
 }
-.container .category-list .list .list-item:hover {
+.container .category-list .swiper .swiper-slide:hover {
   color: var(--black);
   border-color: var(--main-border);
 }
-.container .category-list .list .list-item:hover img {
+.container .category-list .swiper .swiper-slide:hover img {
   opacity: 1;
 }
-.container .category-list .list .list-item span {
+.container .category-list .swiper .swiper-slide span {
   width: 100%;
   display: inline-block;
   font-size: 13px;
   font-weight: 700;
 }
-.container .category-list .list .list-item img {
+.container .category-list .swiper .swiper-slide img {
   display: inline-block;
   opacity: 0.55;
   width: 25px;
@@ -234,10 +317,53 @@ section.items-body {
   display: flex;
   justify-content: center;
 }
+.container.form-container .error-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  z-index: 10;
+  margin: 0 auto;
+  padding: 8px 20px;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(0, 0);
+  transition: opacity 0.3s, transform 0.3s;
+  background-color: #fff;
+  box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  font-size: 15px;
+  font-weight: 650;
+}
+.container.form-container .error-wrapper.active {
+  visibility: visible;
+  animation: error 3s ease-in-out;
+}
+@keyframes error {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(80px);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(80px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+.container.form-container .error-wrapper svg {
+  fill: var(--main-red);
+}
 .container.form-container form {
   position: relative;
   width: 40%;
-  margin-top: 100px;
+  margin-top: 120px;
   border-radius: 30px;
   box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
 }
@@ -400,6 +526,7 @@ section.items-body {
 }
 .container.room-container .image-gallery .main-image {
   flex: 1;
+  background-color: var(--main-border);
 }
 .container.room-container .image-gallery .main-image img {
   display: block;
@@ -408,6 +535,15 @@ section.items-body {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+.container.room-container .image-gallery .main-image svg {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50% -50%);
 }
 .container.room-container .image-gallery > span {
   margin: 180px auto;
@@ -510,7 +646,7 @@ section.items-body {
   position: absolute;
   top: 60px;
   left: 0;
-  padding: 20px 15px 25px 15px;
+  padding: 10px 15px 25px 15px;
   width: 100%;
   background-color: #fff;
   border-radius: 10px;
@@ -1050,7 +1186,8 @@ section.items-body {
 .menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrDateDisplayWrapper {
   display: none;
 }
-.menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrMonthAndYearWrapper, .menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrMonths {
+.menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrMonthAndYearWrapper,
+.menu-wrapper-lg .form-bar > div.date-wrapper .calendar-container .rdrMonths {
   background-color: #fff;
   position: relative;
   z-index: 100;
@@ -1920,6 +2057,9 @@ section.items-body {
 }
 .profile-section .profile-hosts .card-section {
   padding-right: 30px;
+}
+.profile-section .profile-hosts .card-section .loader {
+  margin: 10px auto;
 }
 .profile-section .profile-hosts .card-section .card-trips {
   display: flex;

@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { BeatLoader } from 'react-spinners';
 import { UserContext } from '../contexts/UserContext';
+import Error from './Error';
 
 export default function Form({ fields }) {
     const [user, setUser] = useContext(UserContext);
@@ -14,7 +15,8 @@ export default function Form({ fields }) {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(location.pathname);
-
+    const [error, setError] = useState();
+    const errorTimerRef = useRef(null);
     const togglePassword = () => {
         setShowPassword((prev) => !prev)
     }
@@ -51,7 +53,6 @@ export default function Form({ fields }) {
     function registerLogin(e) {
         e.preventDefault();
         setLoading(true);
-
         if (page === "/register") {
             fetch("http://booking/api/user/register", {
                 method: "POST",
@@ -70,8 +71,16 @@ export default function Form({ fields }) {
                     navigate('/verify');
                 })
                 .catch(err => {
-                    setLoading(false);
-                    err.then(err => alert(err.error));
+                    err.then(err => {
+                        if (errorTimerRef.current) {
+                            clearTimeout(errorTimerRef.current);
+                        }
+                        setError(err.error);
+                        errorTimerRef.current = setTimeout(() => {
+                            setError(null);
+                            setLoading(false);
+                        }, 50);
+                    });
                 });
         } else {
             fetch("http://booking/api/user/login", {
@@ -95,15 +104,24 @@ export default function Form({ fields }) {
                     navigate('/');
                 })
                 .catch(err => {
-                    setLoading(false);
-                    err.then(err => alert(err.error));
+                    err.then(err => {
+                        if (errorTimerRef.current) {
+                            clearTimeout(errorTimerRef.current);
+                        }
+                        setError(err.error);
+                        errorTimerRef.current = setTimeout(() => {
+                            setError(null);
+                            setLoading(false);
+                        }, 3000);
+                    });
                 });
         }
     }
 
     return (
         <>
-            <form className="form">
+            <Error error={error} />
+            <form className='form'>
                 <div className='form-head'>
                     <h1>Log in or sign up</h1>
                 </div>
@@ -117,6 +135,7 @@ export default function Form({ fields }) {
                                         {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                                     </span>
                                     <input
+                                        className={error ? 'error' : ''}
                                         type={showPassword ? "text" : field.type}
                                         name={field.name}
                                         placeholder={field.placeholder}
@@ -127,6 +146,7 @@ export default function Form({ fields }) {
                                     />
                                 </label>
                                 : <input
+                                    className={error ? 'error' : ''}
                                     key={field.name}
                                     type={field.type}
                                     name={field.name}
