@@ -52,7 +52,7 @@ export default function Rooms() {
             setCalendarVisible(true);
         }
     }
-    // const hostelCount = currentHostel.persons + currentHostel.b
+    
     const totalCount = useMemo(() => {
         return Object.values(count).reduce((sum, val) => sum + val, 0);
     }, [count]);

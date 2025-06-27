@@ -1,10 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import { FaCheck } from "react-icons/fa6";
 import History from './History';
 import CurrentTrips from './CurrentTrips';
+import { UserContext } from '../contexts/UserContext';
 export default function Profile() {
     let [isFixed, setIsFixed] = useState(false);
+    const [user, setUser] = useContext(UserContext);
+    const [data,setData] = useState([]);
+    useEffect(()=>{
+      fetch(`http://booking/api/hotels/get-user?user_id=${user?.id}`)
+      .then(res => res.json())
+      .then(result => setData(result))
+      .catch(err => {
+        console.log(err);
+      });
+    },[]);
+    
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 275) {
