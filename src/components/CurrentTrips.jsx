@@ -7,9 +7,11 @@ export default function CurrentTrips() {
     const [user,setUser] = useContext(UserContext);
     console.log(data);
     useEffect(()=>{
-      fetch(`http://booking/api/hotels/get-trips?user_id=${user.id}`)
+      fetch(`http://booking/api/hotels/get-trips?user_id=${user?.id}`)
       .then(res => res.json())
-      .then(result => setData(result.hotels))
+      .then(result => {
+        setData(result.hotels.filter(item => item.status == 1));
+      })
       .catch(err => {
         console.log(err);
       });

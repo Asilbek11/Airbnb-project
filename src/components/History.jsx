@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Cards from './Cards'
+import { UserContext } from '../contexts/UserContext';
 
 export default function History() {
-    const [data,setData] = useState([]);
-  
-    useEffect(()=>{
-      fetch("http://booking/api/hotels/get-hotels?limit=5")
+  const [user,setUser] = useContext(UserContext);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://booking/api/hotels/get-trips?user_id=${user?.id}`)
       .then(res => res.json())
-      .then(result => setData(result.hotels))
+      .then(result => {
+        setData(result.hotels.filter(item => item.status == 0))
+      })
       .catch(err => {
         console.log(err);
       });
-    },[]);
+  }, []);
   return (
     <div className="history-content">
-        <div className="title">
-            <h1>Past trips</h1>
-        </div>
-        <div className="card-trips history-container">
-            <Cards data={data}/>
-        </div>
+      <div className="title">
+        <h1>Past trips</h1>
+      </div>
+      <div className="card-trips history-container">
+        <Cards data={data} />
+      </div>
     </div>
   )
 }
