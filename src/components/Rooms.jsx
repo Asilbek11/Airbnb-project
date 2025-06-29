@@ -76,7 +76,7 @@ export default function Rooms() {
             credentials: 'include',
             body: JSON.stringify({
                 user_id: user.id,
-                hotel_id: id,
+                hotel_id: id.id,
                 started_at: formatDate(state[0].startDate),
                 ended_at: formatDate(state[0].endDate)
             })
@@ -88,7 +88,7 @@ export default function Rooms() {
                     throw res.json();
                 }
             })
-            .then(result => navigate('/profile'))
+            .then(result => {navigate('/profile');console.log(id);})
             .catch(err => {
                 err.then(err => alert(err.error))
             });
