@@ -252,8 +252,9 @@ section {
         }
 
         .swiper {
-            position: relative;
-
+            display: flex;
+            position: relative; 
+            justify-content: center;
             &::after,
             &::before {
                 content: '';
@@ -276,6 +277,14 @@ section {
                 background: #000000;
                 background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 1) 65%);
 
+            }
+            .swiper-btn.disabled {
+                opacity: 0.8;
+                pointer-events: none;
+                cursor: not-allowed;
+            }
+            .swiper-wrapper{
+                width: 100%!important;
             }
 
             .swiper-btn:nth-of-type(1) {

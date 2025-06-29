@@ -205,7 +205,9 @@ section.items-body {
   background: #555;
 }
 .container .category-list .swiper {
+  display: flex;
   position: relative;
+  justify-content: center;
 }
 .container .category-list .swiper::after, .container .category-list .swiper::before {
   content: "";
@@ -225,6 +227,14 @@ section.items-body {
   right: 0;
   background: #000000;
   background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(255, 255, 255) 65%);
+}
+.container .category-list .swiper .swiper-btn.disabled {
+  opacity: 0.8;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.container .category-list .swiper .swiper-wrapper {
+  width: 100% !important;
 }
 .container .category-list .swiper .swiper-btn:nth-of-type(1) {
   left: 0;
