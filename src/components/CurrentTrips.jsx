@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Cards from './Cards';
+import { UserContext } from '../contexts/UserContext';
 
 export default function CurrentTrips() {
+  const [user,setUser] = useContext(UserContext);
     const [data,setData] = useState([]);
     console.log(data);
     useEffect(()=>{
-      fetch("http://booking/api/hotels/get-booked-hotels")
+      fetch(`http://booking/api/hotels/get-trips?user_id=${user?.id}`)
       .then(res => res.json())
-      .then(result => setData(result.trips))
+      .then(result => setData(result.hotels))
       .catch(err => {
         console.log(err);
       });

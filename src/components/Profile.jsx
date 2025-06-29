@@ -9,7 +9,7 @@ export default function Profile() {
     const [user, setUser] = useContext(UserContext);
     const [data,setData] = useState([]);
     useEffect(()=>{
-      fetch(`http://booking/api/hotels/get-user?user_id=${user?.id}`)
+      fetch(`http://booking/api/user/get-user?user_id=${user?.id}`)
       .then(res => res.json())
       .then(result => setData(result))
       .catch(err => {
