@@ -11,11 +11,14 @@ export default function Profile() {
     useEffect(()=>{
       fetch(`http://booking/api/user/get-user?user_id=${user?.id}`)
       .then(res => res.json())
-      .then(result => setData(result))
+      .then(result => {
+        console.log(result);
+        setData(result);
+      })
       .catch(err => {
         console.log(err);
       });
-    },[]);
+    },[user]);
     
     useEffect(() => {
         const handleScroll = () => {
@@ -44,8 +47,8 @@ export default function Profile() {
                             <div className="avatar">
                                 F
                             </div>
-                            <div className="name">
-                                <span>Farhod</span>
+                            <div className="name" style={{textAlign: "center"}}>
+                                <span>{data?.profile?.username}</span>
                                 <p>Guest</p>
                             </div>
                         </div>
@@ -58,7 +61,7 @@ export default function Profile() {
                             <h2>Farhod's confirmed <br /> information</h2>
                             <div>
                                 <FaCheck />
-                                Email address
+                                Email
                             </div>
                             <div>
                                 <FaCheck />

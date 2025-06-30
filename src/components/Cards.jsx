@@ -9,8 +9,6 @@ import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { HashLoader } from 'react-spinners';
 function Cards({ data }) {
-  console.log("Cards: ",data);
-  
   const [wishlist, setWishlist] = useContext(WishlistContext);
   const [user, setUser] = useContext(UserContext);
   const navigate = useNavigate();

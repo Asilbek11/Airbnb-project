@@ -10,7 +10,8 @@ export default function History() {
     fetch(`http://booking/api/hotels/get-trips?user_id=${user?.id}`)
       .then(res => res.json())
       .then(result => {
-        setData(result.hotels.filter(item => item.status == 0))
+        console.log(result);
+        setData(result.hotels.filter(item => item.booking.active == 0))
       })
       .catch(err => {
         console.log(err);
