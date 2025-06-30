@@ -10,7 +10,9 @@ export default function CurrentTrips() {
       fetch(`http://booking/api/hotels/get-trips?user_id=${user?.id}`)
       .then(res => res.json())
       .then(result => {
-        setData(result.hotels.filter(item => item.status == 1));
+        console.log(result);
+        
+        setData(result.hotels.filter(item => item.booking.active == 1));
       })
       .catch(err => {
         console.log(err);
