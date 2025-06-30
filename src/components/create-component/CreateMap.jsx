@@ -7,7 +7,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import AOS from 'aos';
 mapboxgl.accessToken = 'pk.eyJ1IjoibXVzYXlldmZhcmhvZDkwIiwiYSI6ImNtYnZwanI1MzBnMncybnB5bjJzN2F5MXIifQ.6RH8J1oMv2f2IGdRR-uaFw';
 
-export default function CreateMap() {
+export default function CreateMap({setIsValid}) {
   const [location, setLocation] = useState({ lng: 69.240562, lat: 41.311081 });
   const [address, setAddress] = useState('');
   const [countryCity, setCountryCity] = useState('');
@@ -24,7 +24,11 @@ export default function CreateMap() {
       offset: -150
     });
   }, []);
-
+  useEffect(() => {
+    if (setIsValid) {
+      setIsValid(!hotel.address);
+    }
+  }, [hotel.address, setIsValid]);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {

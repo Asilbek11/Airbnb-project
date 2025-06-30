@@ -93,7 +93,7 @@ function Cards({ data }) {
                 {/* <p>{item.type}</p> */}
                 <p>apr 3-7</p>
               </div>
-              <span><strong>${item?.price}</strong> night</span>
+              <span><strong>${item?.price}</strong> for 2 night</span>
             </a>
           </div>
         </div>

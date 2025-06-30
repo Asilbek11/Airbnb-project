@@ -1,13 +1,19 @@
-import { useRef, useContext, useState } from 'react';
+import { useRef, useContext, useEffect } from 'react';
 import { FaRegTrashAlt } from "react-icons/fa";
 import { BsPlusLg } from "react-icons/bs";
 import { IoImageOutline } from "react-icons/io5";
 import { HostContext } from '../../contexts/HostContext';
 
-export default function CreateImage() {
-  // const [selectedImages,setSelectedImages]  = useState([]);
+export default function CreateImage({ setIsValid }) {
   const fileInputRef = useRef(null);
   const [hotel, setHotel] = useContext(HostContext);
+  const images = hotel.images || [];
+  const filledImages = [...images];
+
+  useEffect(() => {
+    const realImages = images.filter(img => typeof img === 'string' && img !== null);
+    if (setIsValid) setIsValid(realImages.length < 5);
+  }, [images, setIsValid]);
 
   const handleSlotClick = (index) => {
     fileInputRef.current.dataset.index = index;
@@ -28,7 +34,11 @@ export default function CreateImage() {
       updatedImages.push(null);
     }
 
-    setHotel({ ...hotel, images: updatedImages,imageObjs: [...hotel.imageObjs,...Array.from(e.target.files)]});
+    setHotel({
+      ...hotel,
+      images: updatedImages,
+      imageObjs: [...hotel.imageObjs, ...Array.from(e.target.files)]
+    });
   };
 
   const handleDelete = (index) => {
@@ -37,14 +47,8 @@ export default function CreateImage() {
     setHotel({ ...hotel, images: updated });
   };
 
-  const images = hotel.images || [];
-  const filledImages = [...images];
-
-  while (filledImages.length <= 5) {
-    filledImages.push(null);
-  }
-
-  if (images.length >= 5 && images.length < 10 && !images.includes(null)) {
+  while (filledImages.length < 5) filledImages.push(null);
+  if (filledImages.length >= 5 && filledImages.length < 10 && !filledImages.includes(null)) {
     filledImages.push(null);
   }
 

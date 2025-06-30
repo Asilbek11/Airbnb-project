@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { HostContext } from '../../contexts/HostContext';
-export default function CreatePlace() {
+export default function CreatePlace({setIsValid}) {
     const [data, setData] = useState([]);
     const [category,setCategory] = useState(null);
     const [hotel,setHotel] = useContext(HostContext);
@@ -22,8 +22,16 @@ export default function CreatePlace() {
         });
     }, []);
     useEffect(() => {
-        AOS.refresh(); // data o‘zgarganda AOS qayta hisoblasin
+        AOS.refresh();
     }, [data])
+
+    useEffect(() => {
+        if (hotel.category_id) {
+          setIsValid(false);
+        } else {
+          setIsValid(true);
+        }
+      }, [hotel.category_id, setIsValid]);
     return (
         <div className='place-content'>
             <div className="title">

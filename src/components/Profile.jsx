@@ -19,7 +19,6 @@ export default function Profile() {
         console.log(err);
       });
     },[user]);
-    
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 275) {
@@ -45,7 +44,7 @@ export default function Profile() {
                     <div className="profile-about">
                         <div className="profile-wrapper">
                             <div className="avatar">
-                                F
+                                {data?.profile?.username?.charAt(0).toUpperCase()}
                             </div>
                             <div className="name" style={{textAlign: "center"}}>
                                 <span>{data?.profile?.username}</span>

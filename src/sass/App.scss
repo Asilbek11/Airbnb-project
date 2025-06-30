@@ -253,8 +253,9 @@ section {
 
         .swiper {
             display: flex;
-            position: relative; 
+            position: relative;
             justify-content: center;
+
             &::after,
             &::before {
                 content: '';
@@ -278,13 +279,15 @@ section {
                 background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 1) 65%);
 
             }
+
             .swiper-btn.disabled {
                 opacity: 0.8;
                 pointer-events: none;
                 cursor: not-allowed;
             }
-            .swiper-wrapper{
-                width: 100%!important;
+
+            .swiper-wrapper {
+                width: 100% !important;
             }
 
             .swiper-btn:nth-of-type(1) {
@@ -641,14 +644,26 @@ section {
             gap: 10px;
             max-width: 100%;
             max-height: 360px;
+            min-height: 360px;
             margin: 0 auto;
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 30px;
 
+            svg {
+                position: relative;
+                width: 30px;
+                height: 30px;
+                top: 50%;
+                left: 50%;
+                transform: translateY(-50% -50%);
+            }
+
             .main-image {
+                position: relative;
                 flex: 1;
-                background-color: var(--main-border);
+                background-color: var(--hover-label);
+
                 img {
                     display: block;
                     position: relative;
@@ -657,15 +672,7 @@ section {
                     object-fit: cover;
                     object-position: center;
                 }
-                svg{
-                    position: relative;
-                    display: block;
-                    width: 40px;
-                    height: 40px;
-                    top: 50%;
-                    left: 50%;
-                    transform: translateY(-50% -50%);
-                }
+
             }
 
             >span {
@@ -681,6 +688,7 @@ section {
                 div {
                     width: calc(50% - 5px);
                     height: calc(50% - 5px);
+                    background-color: var(--hover-label);
 
                     img {
                         width: 100%;
@@ -948,7 +956,7 @@ section {
 
         .order-rate {
             background-color: #fff;
-            padding-left: 100px;
+            padding-left: 104px;
 
             &.fixed {
                 position: fixed;
@@ -2371,6 +2379,9 @@ section {
 
             .profile-wrapper {
                 padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
 
                 .avatar {
                     display: flex;
@@ -2383,7 +2394,7 @@ section {
                     color: #fff;
                     font-size: 45px;
                     font-weight: 700;
-                    margin-bottom: 10px;
+                    margin-bottom: 15px;
                 }
 
                 .name {
@@ -2391,8 +2402,10 @@ section {
                     flex-direction: column;
                     justify-content: center;
                     line-height: 1;
+                    gap: 5px;
 
                     span {
+                        text-transform: capitalize;
                         font-size: 34px;
                         font-weight: 750;
                         margin-bottom: 0;
@@ -2426,7 +2439,7 @@ section {
 
             &.fixed {
                 position: fixed;
-                top: 110px;
+                top: 120px;
                 z-index: 10;
                 padding: 0 45px 0 20px;
             }

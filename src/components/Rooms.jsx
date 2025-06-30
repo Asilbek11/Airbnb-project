@@ -52,7 +52,7 @@ export default function Rooms() {
             setCalendarVisible(true);
         }
     }
-    
+
     const totalCount = useMemo(() => {
         return Object.values(count).reduce((sum, val) => sum + val, 0);
     }, [count]);
@@ -88,11 +88,22 @@ export default function Rooms() {
                     throw res.json();
                 }
             })
-            .then(result => {navigate('/profile');console.log(id);})
+            .then(result => { navigate('/profile'); console.log(id); })
             .catch(err => {
                 err.then(err => alert(err.error))
             });
     }
+    const validImages = currentHostel?.images?.length > 1 ? currentHostel?.images?.slice(1) : [];
+    const [errors, setErrors] = useState(validImages.map(() => false));
+
+    const handleError = (index) => {
+        setErrors((prev) => {
+            const updated = [...prev];
+            updated[index] = true;
+            return updated;
+        });
+    };
+
     useEffect(() => {
         const handleClick = (e) => {
             const isInside = calendarRef.current?.contains(e.target);
@@ -195,9 +206,17 @@ export default function Rooms() {
                                     )}
                                 </div>
                                 <div className="side-images">
-                                    {currentHostel?.images.slice(1).map((img, i) => (
-                                        <div>
-                                            <img key={i} src={img?.url} alt={`Side ${i}`} />
+                                    {validImages.map((img, i) => (
+                                        <div key={i}>
+                                            {errors[i] ? (
+                                                <LuFileImage />
+                                            ) : (
+                                                <img
+                                                    src={img?.url}
+                                                    alt={`Side ${i}`}
+                                                    onError={() => handleError(i)}
+                                                />
+                                            )}
                                         </div>
                                     ))}
                                 </div>

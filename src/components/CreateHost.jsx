@@ -33,6 +33,7 @@ export default function CreateHost() {
     images: [],
     imageObjs: []
   });
+  const [isStepValid, setIsStepValid] = useState(false);
   const TOTAL_STEPS = 10;
   const progress = ((parseInt(step) - 1) / (TOTAL_STEPS - 1)) * 100;
   const navigate = useNavigate();
@@ -148,14 +149,14 @@ export default function CreateHost() {
   const stepContent = (step) => {
     switch (parseInt(step)) {
       case 1: return <CreateComponent fields={fields[0]} />;
-      case 2: return <CreatePlace />;
+      case 2: return <CreatePlace  setIsValid={setIsStepValid} />;
       case 3: return <CreateUserCount />;
       case 4: return <CreateComponent fields={fields[1]} />;
-      case 5: return <CreateImage />;
-      case 6: return <CreateMap />;
-      case 7: return <CreateTitle />;
-      case 8: return <CreateDescription />;
-      case 9: return <CreatePrice />;
+      case 5: return <CreateImage setIsValid={setIsStepValid} />;
+      case 6: return <CreateMap setIsValid={setIsStepValid} />;
+      case 7: return <CreateTitle setIsValid={setIsStepValid} />;
+      case 8: return <CreateDescription setIsValid={setIsStepValid} />;
+      case 9: return <CreatePrice setIsValid={setIsStepValid} />;
       case 10: return <CreateComponent fields={fields[2]} />;
       default: return null;
     }
@@ -219,7 +220,7 @@ export default function CreateHost() {
 
           <button
             className={`next-btn ${isNextLoading ? 'loading' : ''}`}
-            disabled={isNextLoading}
+            disabled={isNextLoading || isStepValid}
             onClick={nextPage}
           >
             {isNextLoading ? (
