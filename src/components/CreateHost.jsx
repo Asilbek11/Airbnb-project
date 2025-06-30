@@ -84,7 +84,7 @@ export default function CreateHost() {
           throw res.json();
         }
       })
-        .then(result => navigate('/'))
+        .then(result => navigate('/hosts'))
         .catch(err => {
           err.then(err => alert(err.error))
         });

@@ -5,8 +5,9 @@ import { UserContext } from '../contexts/UserContext';
 export default function CurrentTrips() {
     const [data,setData] = useState([]);
     const [user,setUser] = useContext(UserContext);
-    console.log(data);
+    const [finished,setFinished] = useState(true);
     useEffect(()=>{
+      setFinished(false);
       fetch(`http://booking/api/hotels/get-trips?user_id=${user?.id}`)
       .then(res => res.json())
       .then(result => {
@@ -16,7 +17,9 @@ export default function CurrentTrips() {
       })
       .catch(err => {
         console.log(err);
-      });
+      }).finally(()=>{
+        setFinished(true);
+      })
     },[]);
   return (
     <div className="current-content">
@@ -24,7 +27,7 @@ export default function CurrentTrips() {
             <h1>Current trips</h1>
         </div>
         <div className="card-trips current-container">
-            <Cards data={data}/>
+            <Cards data={data} finished={finished}/>
         </div>
     </div>
   )

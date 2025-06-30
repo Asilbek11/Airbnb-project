@@ -2098,6 +2098,28 @@ section.items-body {
   background-color: var(--main-border);
 }
 
+.empty-wrapper {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  color: var(--silver);
+  grid-column: 1/5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 100px 0;
+}
+.empty-wrapper svg {
+  display: block;
+  width: 100px;
+  height: 100px;
+  fill: var(--silver);
+}
+.empty-wrapper span {
+  font-size: 30px;
+}
+
 .footer-fixed {
   position: fixed;
   bottom: 0;

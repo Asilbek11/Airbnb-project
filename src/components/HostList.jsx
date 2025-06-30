@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import Cards from './Cards'
+import { UserContext } from '../contexts/UserContext';
 
 export default function Wishlist() {
+  const [user,setUser] = useContext(UserContext);
   const [data,setData] = useState([]);
-  
+  const [finished,setFinished] = useState(true);
     useEffect(()=>{
-      fetch("http://booking/api/hotels/get-hotels")
+      fetch(`http://booking/api/hotels/get-own-hotels?user_id=${user?.id}`)
       .then(res => res.json())
       .then(result => setData(result.hotels))
       .catch(err => {
         console.log(err);
-      });
+      }).finally(()=>{
+        setFinished(true);
+      })
     },[]);
   return (
     <>
@@ -25,7 +29,7 @@ export default function Wishlist() {
           </div>
         </div>
         <div className="container sm card-container">
-          <Cards data={data}/>
+          <Cards data={data} finished={finished}/>
         </div>
     </section>
     </>

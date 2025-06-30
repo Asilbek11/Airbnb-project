@@ -8,7 +8,8 @@ import { WishlistContext } from '../contexts/WishlistContext';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { HashLoader } from 'react-spinners';
-function Cards({ data }) {
+import Empty from './Empty';
+function Cards({ data,finished }) {
   const [wishlist, setWishlist] = useContext(WishlistContext);
   const [user, setUser] = useContext(UserContext);
   const navigate = useNavigate();
@@ -97,7 +98,9 @@ function Cards({ data }) {
             </a>
           </div>
         </div>
-      )) : <div className="loader"><HashLoader size={80} /></div>}
+      )) : 
+      finished ? <Empty />:
+      <div className="loader"><HashLoader size={80} /></div>}
     </>
   )
 
